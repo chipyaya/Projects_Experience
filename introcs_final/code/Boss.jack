@@ -1,0 +1,207 @@
+class Boss 
+{
+	static int x;
+	static int HP_UP;
+	static int hp;
+	static int Size;
+	static int High;
+	static boolean isAlive; 
+	field int ATTACK_DURATION;
+	field int speed;
+	field boolean d_time;
+	field int a_time;
+	field int L_LEAST;
+	field int R_LEAST;
+	field int PIPE_INNER;
+	field int PIPE_OUTER;
+	field int Px;
+	field int center;
+	
+	static int PIPE_CENTER;
+	
+	constructor Boss new() {
+		let Size = 30;
+		let Px = Player2.getX();
+		let speed =9;
+		let L_LEAST = Size + speed;
+		let R_LEAST = Interface.getRightBound() - Size - speed;
+		//let x = Random.rand(0, Px);
+		let center = ((L_LEAST + R_LEAST) / 2);
+		if (Px > center){
+			let x = Random.rand(L_LEAST, center);
+		}
+		if (Px < center){
+			let x = Random.rand(center, R_LEAST);
+		}
+
+		if (Px = center){
+			let x = Random.rand(L_LEAST, R_LEAST);
+		}
+		if (Interface.getChapter() < 5){
+			let HP_UP = 100 + (50 * (Interface.getChapter() - 2));
+		}
+
+		else {
+			let HP_UP = 200;
+		}
+
+		let hp = HP_UP;
+		let High = 50;
+		let PIPE_INNER = 13;
+		let PIPE_OUTER = 17;
+		let PIPE_CENTER = (PIPE_INNER + PIPE_OUTER) / 2;
+		//let R_LEAST = 512;
+		let ATTACK_DURATION = 10;
+		let d_time = true;
+		let a_time = 0;
+		let isAlive = true;
+
+		do drawBoss();
+		return this;
+	}
+
+	method void dispose() {
+		do eraseBoss();
+		do Memory.deAlloc(this);
+		return;
+	}
+
+	method void BossAppearance() {
+
+		do Screen.drawRectangle(x - 30, 0, x - 20, 30);
+		do Screen.drawRectangle(x - 20, 10, x - 5, 20);
+		do Screen.drawRectangle(x - 5, 0, x - 2, 40);
+		do Screen.drawCircle(x, 45, 3);
+		do Screen.drawRectangle(x + 2, 0, x + 5, 40);
+		do Screen.drawRectangle(x + 5, 10, x + 20, 20);
+		do Screen.drawRectangle(x + 20, 0, x + 30, 30);
+
+		do Screen.drawRectangle(x - PIPE_OUTER, 20, x - PIPE_INNER, 50);
+		do Screen.drawRectangle(x + PIPE_INNER, 20, x + PIPE_OUTER, 50);
+
+		do Screen.setColor(false);
+		do Screen.drawCircle(x, 45, 1);
+		return;
+	}
+
+	method void drawBoss() {
+		do Screen.setColor(true);
+		do BossAppearance();
+    		return;
+	}
+
+	method void eraseBoss() {
+		do Screen.setColor(false);
+		do BossAppearance();
+		return;
+	}
+
+	method void run() {
+		var int random;
+		var int direction;
+		var int time;
+
+		if (~isAlive){
+			return;
+		}
+
+		if (hp = 0){
+			do Ground.setStage2End();
+			do eraseBoss();
+			let isAlive = false;
+			return;
+		}
+		let Px = Player2.getX();
+
+		if (a_time = ATTACK_DURATION){
+			let a_time = 0;
+		}
+		else {
+			if (a_time = 0){
+				do BossAmmo.attack();
+			}
+
+			if (a_time = 2){
+				do BossAmmo.attack();
+			}
+
+			if (a_time = 4){
+				do BossAmmo.attack();
+			}
+
+
+			let a_time = a_time + 1;
+		}
+
+		if (~d_time){
+			let d_time = true;
+			return;
+		}
+
+		let d_time = false;
+
+		if (x < Px){
+			do moveRight();
+		}
+		if (x > Px){
+			do moveLeft();
+		}
+
+		return;
+	}
+	method void moveLeft() {
+	    	if (x > L_LEAST) {
+			do eraseBoss();
+			let x = x - speed;
+			do drawBoss();
+	    	}
+	    	return;
+	}
+
+	method void moveRight() {
+		if (x < R_LEAST) {
+	    		do eraseBoss();
+			let x = x + speed;
+			do drawBoss();
+		}
+		return;
+    	}
+
+	function void hpReduce() {
+		if (~((hp - 10) > 0)) {
+			let hp = 0;
+			return;
+		}
+
+		let hp = hp - 10;
+		return;
+	}
+
+	function int getHP_UP(){
+		return HP_UP;
+	}
+
+	function int getHp(){
+		return hp;
+	}
+
+	function int getX() {
+		return x;
+	}
+
+	function int getY() {
+		return High;
+	}
+
+	function int getSize() {
+		return Size;
+	}
+
+	function int getPipeCenter(){
+		return PIPE_CENTER;
+	}
+
+	function boolean isAlive() {
+		return isAlive;
+	}
+}

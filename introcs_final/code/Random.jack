@@ -1,0 +1,44 @@
+class Random{
+	field int waste;
+	static int seed;
+	
+	function void setSeed(int NewSeed){
+		let seed = NewSeed ;
+		if (seed = 0){
+			let seed = 1;
+		}
+		
+		return;
+	}
+	
+	function int rand(int range_min,int range_max){
+		var int abc;		
+		var int A ;
+		var int M ;
+		var int Q ;
+		var int R ;
+		
+		let A = 219;
+		let M = 32749;
+		let Q = M / A;
+		let R = Random.mod(M,A);
+		
+		let seed = (A * (Random.mod(seed , Q))) - (R * (seed / Q) );
+		while(seed < 0){
+			let seed = seed + M;
+		}
+
+		let abc = Random.mod(seed,range_max-range_min+1) 
+		 + range_min;
+			
+		return abc;
+	}
+	
+	function int mod(int a,int b){
+		var int a_mod_b;
+		
+		let a_mod_b = a-((a/b)*b);
+		return a_mod_b;
+	}
+
+}

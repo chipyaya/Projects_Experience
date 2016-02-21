@@ -1,0 +1,888 @@
+function Stage1toStage2.new 0
+push constant 3
+call Memory.alloc 1
+pop pointer 0
+call Game.getDelay 0
+pop this 2
+push pointer 0
+return
+function Stage1toStage2.dispose 0
+push argument 0
+pop pointer 0
+push pointer 0
+call Memory.deAlloc 1
+pop temp 0
+push constant 0
+return
+function Stage1toStage2.drowPlayer 0
+push argument 0
+pop pointer 0
+push constant 0
+not
+call Screen.setColor 1
+pop temp 0
+push constant 200
+push constant 128
+push constant 80
+call Screen.drawCircle 3
+pop temp 0
+push constant 0
+call Screen.setColor 1
+pop temp 0
+push constant 200
+push constant 128
+push constant 75
+call Screen.drawCircle 3
+pop temp 0
+push constant 0
+not
+call Screen.setColor 1
+pop temp 0
+push constant 198
+push constant 206
+push constant 202
+push constant 255
+call Screen.drawRectangle 4
+pop temp 0
+push constant 198
+push constant 230
+push constant 50
+push constant 150
+call Screen.drawLine 4
+pop temp 0
+push constant 198
+push constant 231
+push constant 50
+push constant 151
+call Screen.drawLine 4
+pop temp 0
+push constant 198
+push constant 232
+push constant 50
+push constant 152
+call Screen.drawLine 4
+pop temp 0
+push constant 202
+push constant 230
+push constant 350
+push constant 150
+call Screen.drawLine 4
+pop temp 0
+push constant 202
+push constant 231
+push constant 350
+push constant 151
+call Screen.drawLine 4
+pop temp 0
+push constant 202
+push constant 232
+push constant 350
+push constant 152
+call Screen.drawLine 4
+pop temp 0
+push constant 150
+push constant 130
+push constant 5
+call Screen.drawCircle 3
+pop temp 0
+push constant 300
+push this 2
+sub
+call Sys.wait 1
+pop temp 0
+push constant 0
+call Screen.setColor 1
+pop temp 0
+push constant 150
+push constant 130
+push constant 5
+call Screen.drawCircle 3
+pop temp 0
+push constant 0
+not
+call Screen.setColor 1
+pop temp 0
+push constant 250
+push constant 100
+push constant 5
+call Screen.drawCircle 3
+pop temp 0
+push constant 370
+push constant 30
+push constant 380
+push constant 60
+call Screen.drawRectangle 4
+pop temp 0
+push constant 375
+push constant 80
+push constant 5
+call Screen.drawCircle 3
+pop temp 0
+push constant 400
+push constant 20
+push constant 410
+push constant 70
+call Screen.drawRectangle 4
+pop temp 0
+push constant 405
+push constant 90
+push constant 5
+call Screen.drawCircle 3
+pop temp 0
+push constant 500
+push this 2
+sub
+call Sys.wait 1
+pop temp 0
+push constant 0
+return
+function Stage1toStage2.BossAppearance 0
+push argument 0
+pop pointer 0
+push argument 1
+push constant 60
+sub
+push argument 2
+push argument 1
+push constant 40
+sub
+push argument 2
+push constant 60
+add
+call Screen.drawRectangle 4
+pop temp 0
+push argument 1
+push constant 40
+sub
+push argument 2
+push constant 20
+add
+push argument 1
+push constant 10
+sub
+push argument 2
+push constant 40
+add
+call Screen.drawRectangle 4
+pop temp 0
+push argument 1
+push constant 10
+sub
+push argument 2
+push argument 1
+push constant 4
+sub
+push argument 2
+push constant 80
+add
+call Screen.drawRectangle 4
+pop temp 0
+push argument 1
+push argument 2
+push constant 90
+add
+push constant 6
+call Screen.drawCircle 3
+pop temp 0
+push argument 1
+push constant 4
+add
+push argument 2
+push argument 1
+push constant 10
+add
+push argument 2
+push constant 80
+add
+call Screen.drawRectangle 4
+pop temp 0
+push argument 1
+push constant 10
+add
+push argument 2
+push constant 20
+add
+push argument 1
+push constant 40
+add
+push argument 2
+push constant 40
+add
+call Screen.drawRectangle 4
+pop temp 0
+push argument 1
+push constant 40
+add
+push argument 2
+push argument 1
+push constant 60
+add
+push argument 2
+push constant 60
+add
+call Screen.drawRectangle 4
+pop temp 0
+push argument 1
+push constant 34
+sub
+push argument 2
+push constant 40
+add
+push argument 1
+push constant 26
+sub
+push argument 2
+push constant 100
+add
+call Screen.drawRectangle 4
+pop temp 0
+push argument 1
+push constant 26
+add
+push argument 2
+push constant 40
+add
+push argument 1
+push constant 34
+add
+push argument 2
+push constant 100
+add
+call Screen.drawRectangle 4
+pop temp 0
+push constant 0
+call Screen.setColor 1
+pop temp 0
+push argument 1
+push argument 2
+push constant 90
+add
+push constant 2
+call Screen.drawCircle 3
+pop temp 0
+push constant 0
+return
+function Stage1toStage2.Bossappear 3
+push argument 0
+pop pointer 0
+push constant 435
+pop local 0
+push constant 30
+pop local 1
+push constant 5
+pop local 2
+push constant 0
+not
+call Screen.setColor 1
+pop temp 0
+push pointer 0
+push local 0
+push local 1
+call Stage1toStage2.BossAppearance 3
+pop temp 0
+label WHILE_EXP0
+push local 2
+push constant 0
+lt
+not
+not
+if-goto WHILE_END0
+push constant 0
+call Screen.setColor 1
+pop temp 0
+push pointer 0
+push local 0
+push local 1
+call Stage1toStage2.BossAppearance 3
+pop temp 0
+push local 0
+push constant 30
+sub
+pop local 0
+push local 1
+push constant 10
+add
+pop local 1
+push constant 0
+not
+call Screen.setColor 1
+pop temp 0
+push pointer 0
+push local 0
+push local 1
+call Stage1toStage2.BossAppearance 3
+pop temp 0
+push constant 150
+push this 2
+sub
+call Sys.wait 1
+pop temp 0
+push local 2
+push constant 1
+sub
+pop local 2
+goto WHILE_EXP0
+label WHILE_END0
+label WHILE_EXP1
+push constant 0
+not
+not
+if-goto WHILE_END1
+push constant 0
+call Screen.setColor 1
+pop temp 0
+push pointer 0
+push local 0
+push local 1
+call Stage1toStage2.BossAppearance 3
+pop temp 0
+push local 1
+push constant 15
+sub
+pop local 1
+push local 1
+push constant 0
+lt
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push constant 0
+return
+label IF_FALSE0
+push constant 0
+not
+call Screen.setColor 1
+pop temp 0
+push pointer 0
+push local 0
+push local 1
+call Stage1toStage2.BossAppearance 3
+pop temp 0
+push constant 150
+push this 2
+sub
+call Sys.wait 1
+pop temp 0
+goto WHILE_EXP1
+label WHILE_END1
+push constant 0
+return
+function Stage1toStage2.Bossattack 6
+push argument 0
+pop pointer 0
+push constant 255
+push constant 32
+sub
+pop local 1
+push constant 253
+pop local 2
+push constant 255
+push constant 32
+add
+pop local 3
+push constant 100
+push constant 1
+add
+pop local 4
+push constant 6
+pop local 5
+push constant 4
+pop local 0
+push constant 0
+not
+call Screen.setColor 1
+pop temp 0
+push local 1
+push local 4
+push local 1
+push local 0
+add
+push local 4
+push local 0
+add
+call Screen.drawRectangle 4
+pop temp 0
+push local 2
+push local 4
+push local 2
+push local 0
+add
+push local 4
+push local 0
+add
+call Screen.drawRectangle 4
+pop temp 0
+push local 3
+push local 4
+push local 3
+push local 0
+add
+push local 4
+push local 0
+add
+call Screen.drawRectangle 4
+pop temp 0
+label WHILE_EXP0
+push constant 0
+not
+not
+if-goto WHILE_END0
+push constant 0
+not
+call Screen.setColor 1
+pop temp 0
+push pointer 0
+push constant 255
+push constant 0
+call Stage1toStage2.BossAppearance 3
+pop temp 0
+push constant 0
+call Screen.setColor 1
+pop temp 0
+push local 1
+push local 4
+push local 1
+push local 0
+add
+push local 4
+push local 0
+add
+call Screen.drawRectangle 4
+pop temp 0
+push local 2
+push local 4
+push local 2
+push local 0
+add
+push local 4
+push local 0
+add
+call Screen.drawRectangle 4
+pop temp 0
+push local 3
+push local 4
+push local 3
+push local 0
+add
+push local 4
+push local 0
+add
+call Screen.drawRectangle 4
+pop temp 0
+push local 4
+push local 5
+add
+pop local 4
+push local 4
+push local 0
+add
+push constant 255
+gt
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push constant 0
+return
+label IF_FALSE0
+push constant 0
+not
+call Screen.setColor 1
+pop temp 0
+push local 1
+push local 4
+push local 1
+push local 0
+add
+push local 4
+push local 0
+add
+call Screen.drawRectangle 4
+pop temp 0
+push local 2
+push local 4
+push local 2
+push local 0
+add
+push local 4
+push local 0
+add
+call Screen.drawRectangle 4
+pop temp 0
+push local 3
+push local 4
+push local 3
+push local 0
+add
+push local 4
+push local 0
+add
+call Screen.drawRectangle 4
+pop temp 0
+push this 2
+call Sys.wait 1
+pop temp 0
+goto WHILE_EXP0
+label WHILE_END0
+push constant 0
+return
+function Stage1toStage2.draw 0
+push argument 0
+pop pointer 0
+push argument 1
+push constant 18
+add
+push argument 2
+push constant 12
+add
+push constant 12
+call Screen.drawCircle 3
+pop temp 0
+push argument 1
+push constant 18
+add
+push argument 2
+push constant 24
+add
+push argument 1
+push constant 18
+add
+push argument 2
+push constant 30
+add
+call Screen.drawLine 4
+pop temp 0
+push argument 1
+push argument 2
+push constant 12
+add
+push argument 1
+push constant 18
+add
+push argument 2
+push constant 30
+add
+call Screen.drawLine 4
+pop temp 0
+push argument 1
+push constant 36
+add
+push argument 2
+push constant 12
+add
+push argument 1
+push constant 18
+add
+push argument 2
+push constant 30
+add
+call Screen.drawLine 4
+pop temp 0
+push argument 1
+push constant 18
+add
+push argument 2
+push constant 30
+add
+push argument 1
+push constant 10
+add
+push argument 2
+push constant 36
+add
+call Screen.drawLine 4
+pop temp 0
+push argument 1
+push constant 18
+add
+push argument 2
+push constant 30
+add
+push argument 1
+push constant 28
+add
+push argument 2
+push constant 36
+add
+call Screen.drawLine 4
+pop temp 0
+push constant 0
+return
+function Stage1toStage2.PlarerJump 10
+push argument 0
+pop pointer 0
+push constant 255
+push constant 32
+sub
+pop local 1
+push constant 253
+pop local 2
+push constant 255
+push constant 32
+add
+pop local 3
+push constant 1
+pop local 4
+push constant 6
+pop local 5
+push constant 4
+pop local 0
+push constant 250
+pop local 6
+push constant 144
+pop local 7
+push constant 4
+pop local 8
+push constant 0
+not
+pop local 9
+push constant 0
+not
+call Screen.setColor 1
+pop temp 0
+push constant 200
+push constant 180
+push constant 300
+push constant 200
+call Screen.drawRectangle 4
+pop temp 0
+push pointer 0
+push local 6
+push local 7
+call Stage1toStage2.draw 3
+pop temp 0
+label WHILE_EXP0
+push constant 0
+not
+not
+if-goto WHILE_END0
+push local 6
+push constant 210
+gt
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push constant 0
+call Screen.setColor 1
+pop temp 0
+push pointer 0
+push local 6
+push local 7
+call Stage1toStage2.draw 3
+pop temp 0
+push local 6
+push local 8
+sub
+pop local 6
+push constant 0
+not
+call Screen.setColor 1
+pop temp 0
+push constant 200
+push constant 180
+push constant 300
+push constant 200
+call Screen.drawRectangle 4
+pop temp 0
+push pointer 0
+push local 6
+push local 7
+call Stage1toStage2.draw 3
+pop temp 0
+goto IF_END0
+label IF_FALSE0
+push local 7
+push constant 100
+gt
+push local 9
+and
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+push constant 0
+call Screen.setColor 1
+pop temp 0
+push pointer 0
+push local 6
+push local 7
+call Stage1toStage2.draw 3
+pop temp 0
+push local 6
+push local 8
+sub
+pop local 6
+push local 7
+push constant 5
+sub
+pop local 7
+push constant 0
+not
+call Screen.setColor 1
+pop temp 0
+push constant 200
+push constant 180
+push constant 300
+push constant 200
+call Screen.drawRectangle 4
+pop temp 0
+push pointer 0
+push local 6
+push local 7
+call Stage1toStage2.draw 3
+pop temp 0
+goto IF_END1
+label IF_FALSE1
+push constant 0
+pop local 9
+push constant 0
+call Screen.setColor 1
+pop temp 0
+push pointer 0
+push local 6
+push local 7
+call Stage1toStage2.draw 3
+pop temp 0
+push local 6
+push local 8
+sub
+pop local 6
+push local 7
+push constant 7
+add
+pop local 7
+push constant 0
+not
+call Screen.setColor 1
+pop temp 0
+push constant 200
+push constant 180
+push constant 300
+push constant 200
+call Screen.drawRectangle 4
+pop temp 0
+push pointer 0
+push local 6
+push local 7
+call Stage1toStage2.draw 3
+pop temp 0
+label IF_END1
+label IF_END0
+push constant 0
+call Screen.setColor 1
+pop temp 0
+push local 1
+push local 4
+push local 1
+push local 0
+add
+push local 4
+push local 0
+add
+call Screen.drawRectangle 4
+pop temp 0
+push local 2
+push local 4
+push local 2
+push local 0
+add
+push local 4
+push local 0
+add
+call Screen.drawRectangle 4
+pop temp 0
+push local 3
+push local 4
+push local 3
+push local 0
+add
+push local 4
+push local 0
+add
+call Screen.drawRectangle 4
+pop temp 0
+push local 4
+push local 5
+add
+pop local 4
+push local 4
+push local 0
+add
+push constant 180
+gt
+if-goto IF_TRUE2
+goto IF_FALSE2
+label IF_TRUE2
+push constant 0
+return
+label IF_FALSE2
+push constant 0
+not
+call Screen.setColor 1
+pop temp 0
+push local 1
+push local 4
+push local 1
+push local 0
+add
+push local 4
+push local 0
+add
+call Screen.drawRectangle 4
+pop temp 0
+push local 2
+push local 4
+push local 2
+push local 0
+add
+push local 4
+push local 0
+add
+call Screen.drawRectangle 4
+pop temp 0
+push local 3
+push local 4
+push local 3
+push local 0
+add
+push local 4
+push local 0
+add
+call Screen.drawRectangle 4
+pop temp 0
+push this 2
+call Sys.wait 1
+pop temp 0
+goto WHILE_EXP0
+label WHILE_END0
+push constant 0
+return
+function Stage1toStage2.run 0
+push argument 0
+pop pointer 0
+call Screen.clearScreen 0
+pop temp 0
+push pointer 0
+call Stage1toStage2.drowPlayer 1
+pop temp 0
+call Screen.clearScreen 0
+pop temp 0
+push pointer 0
+call Stage1toStage2.Bossappear 1
+pop temp 0
+push constant 50
+call Sys.wait 1
+pop temp 0
+push pointer 0
+call Stage1toStage2.Bossattack 1
+pop temp 0
+call Screen.clearScreen 0
+pop temp 0
+push pointer 0
+call Stage1toStage2.PlarerJump 1
+pop temp 0
+push constant 50
+call Sys.wait 1
+pop temp 0
+call Screen.clearScreen 0
+pop temp 0
+push constant 0
+return

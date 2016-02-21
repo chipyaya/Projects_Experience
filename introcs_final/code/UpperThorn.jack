@@ -1,0 +1,66 @@
+class UpperThorn {   
+    // start (x,y) = (0,0)
+    field int BASE_WIDTH;
+    field int BASE_HEIGHT;
+    field int THORN_WIDTH;
+    field int THORN_HEIGHT;
+    static int UPPER_BOUND;
+
+    constructor UpperThorn new() 
+    {
+      let BASE_WIDTH = Interface.getRightBound() - 1;
+      let BASE_HEIGHT = 15;
+      let THORN_WIDTH = 8;
+      let THORN_HEIGHT = 14;
+      let UPPER_BOUND = BASE_HEIGHT + THORN_HEIGHT;
+      do draw();
+      return this;
+    }
+
+    method void dispose() 
+    {
+      do clear();
+      do Memory.deAlloc(this);
+      return;
+    }
+
+    method void clear()
+    {
+      do Screen.setColor(false);
+      do Screen.drawRectangle(0,0,
+			      BASE_WIDTH, BASE_HEIGHT + THORN_HEIGHT);
+      return;
+    }
+
+    method void draw()
+    {
+      var int halfThornWidth;
+      var int i;
+      let halfThornWidth = THORN_WIDTH / 2;
+      do Screen.setColor(true);
+      do Screen.drawRectangle(0,0,BASE_WIDTH,BASE_HEIGHT);
+
+      let i = 0;
+      while( ~ ( (i + THORN_WIDTH) > BASE_WIDTH)  )
+      {
+        do Screen.drawLine(i,BASE_HEIGHT, 
+	                   i + halfThornWidth, BASE_HEIGHT + THORN_HEIGHT);
+        do Screen.drawLine(i + 1,BASE_HEIGHT,
+	                   i + halfThornWidth + 1,BASE_HEIGHT + THORN_HEIGHT);
+	let i = i + halfThornWidth;
+	do Screen.drawLine(i, BASE_HEIGHT + THORN_HEIGHT,
+	                   i + halfThornWidth, BASE_HEIGHT);
+	do Screen.drawLine(i + 1, BASE_HEIGHT + THORN_HEIGHT,
+	                   i + halfThornWidth + 1, BASE_HEIGHT);
+	let i = i + halfThornWidth;
+      }
+
+      return;
+    }
+
+    function int getUpperBound()
+    {
+      return UPPER_BOUND;
+    }
+
+}

@@ -1,0 +1,556 @@
+function Player2.new 0
+push constant 3
+call Memory.alloc 1
+pop pointer 0
+call Game.getPlayerLastX 0
+pop static 0
+call Game.getPlayerLastY 0
+pop static 1
+push constant 18
+pop static 2
+call Game.getPlayerLastHp 0
+pop static 4
+push constant 0
+pop this 0
+push constant 8
+pop static 3
+push constant 0
+pop static 5
+push constant 1
+pop this 1
+push constant 0
+pop this 2
+push constant 0
+pop static 6
+push pointer 0
+call Player2.draw 1
+pop temp 0
+push pointer 0
+return
+function Player2.run 0
+push argument 0
+pop pointer 0
+push this 2
+push constant 0
+eq
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push pointer 0
+call Player2.drop 1
+pop temp 0
+label IF_FALSE0
+push pointer 0
+push this 0
+call Player2.move 2
+pop temp 0
+push static 5
+push constant 1
+eq
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+call PlayerAmmo.attack 0
+pop temp 0
+label IF_FALSE1
+push static 4
+push constant 0
+gt
+not
+if-goto IF_TRUE2
+goto IF_FALSE2
+label IF_TRUE2
+push constant 1000
+call Sys.wait 1
+pop temp 0
+call Stage2.setExit 0
+pop temp 0
+call Game.setExit 0
+pop temp 0
+label IF_FALSE2
+push static 6
+push constant 1
+eq
+if-goto IF_TRUE3
+goto IF_FALSE3
+label IF_TRUE3
+push pointer 0
+call Player2.setOnGround 1
+pop temp 0
+label IF_FALSE3
+push constant 0
+return
+function Player2.dispose 0
+push argument 0
+pop pointer 0
+push pointer 0
+call Player2.erase 1
+pop temp 0
+push pointer 0
+call Memory.deAlloc 1
+pop temp 0
+push constant 0
+return
+function Player2.draw 0
+push argument 0
+pop pointer 0
+push constant 0
+not
+call Screen.setColor 1
+pop temp 0
+push static 0
+push constant 9
+add
+push static 1
+push constant 6
+add
+push constant 6
+call Screen.drawCircle 3
+pop temp 0
+push static 0
+push constant 9
+add
+push static 1
+push constant 12
+add
+push static 0
+push constant 9
+add
+push static 1
+push constant 15
+add
+call Screen.drawLine 4
+pop temp 0
+push static 0
+push constant 9
+add
+push static 1
+push constant 15
+add
+push static 0
+push constant 3
+add
+push static 1
+push constant 18
+add
+call Screen.drawLine 4
+pop temp 0
+push static 0
+push constant 9
+add
+push static 1
+push constant 15
+add
+push static 0
+push constant 15
+add
+push static 1
+push constant 18
+add
+call Screen.drawLine 4
+pop temp 0
+push static 0
+push constant 1
+add
+push static 1
+push constant 9
+add
+push static 0
+push constant 1
+add
+push static 1
+push constant 14
+add
+call Screen.drawLine 4
+pop temp 0
+push static 0
+push constant 1
+add
+push static 1
+push constant 15
+add
+push static 0
+push constant 9
+add
+push static 1
+push constant 14
+add
+call Screen.drawLine 4
+pop temp 0
+push static 0
+push constant 3
+add
+push static 1
+push constant 9
+add
+push static 0
+push constant 3
+add
+push static 1
+push constant 12
+add
+call Screen.drawLine 4
+pop temp 0
+push static 0
+push constant 3
+add
+push static 1
+push constant 12
+add
+push static 0
+push constant 9
+add
+push static 1
+push constant 12
+add
+call Screen.drawLine 4
+pop temp 0
+push static 0
+push constant 1
+add
+push static 1
+push static 0
+push constant 3
+add
+push static 1
+push constant 6
+add
+call Screen.drawRectangle 4
+pop temp 0
+push static 0
+push static 1
+push constant 6
+add
+push static 0
+push constant 3
+add
+push static 1
+push constant 9
+add
+call Screen.drawRectangle 4
+pop temp 0
+push constant 0
+return
+function Player2.erase 0
+push argument 0
+pop pointer 0
+push constant 0
+call Screen.setColor 1
+pop temp 0
+push static 0
+push constant 9
+add
+push static 1
+push constant 6
+add
+push constant 6
+call Screen.drawCircle 3
+pop temp 0
+push static 0
+push constant 9
+add
+push static 1
+push constant 12
+add
+push static 0
+push constant 9
+add
+push static 1
+push constant 15
+add
+call Screen.drawLine 4
+pop temp 0
+push static 0
+push constant 9
+add
+push static 1
+push constant 15
+add
+push static 0
+push constant 3
+add
+push static 1
+push constant 18
+add
+call Screen.drawLine 4
+pop temp 0
+push static 0
+push constant 9
+add
+push static 1
+push constant 15
+add
+push static 0
+push constant 15
+add
+push static 1
+push constant 18
+add
+call Screen.drawLine 4
+pop temp 0
+push static 0
+push constant 1
+add
+push static 1
+push constant 9
+add
+push static 0
+push constant 1
+add
+push static 1
+push constant 14
+add
+call Screen.drawLine 4
+pop temp 0
+push static 0
+push constant 1
+add
+push static 1
+push constant 15
+add
+push static 0
+push constant 9
+add
+push static 1
+push constant 14
+add
+call Screen.drawLine 4
+pop temp 0
+push static 0
+push constant 3
+add
+push static 1
+push constant 9
+add
+push static 0
+push constant 3
+add
+push static 1
+push constant 12
+add
+call Screen.drawLine 4
+pop temp 0
+push static 0
+push constant 3
+add
+push static 1
+push constant 12
+add
+push static 0
+push constant 9
+add
+push static 1
+push constant 12
+add
+call Screen.drawLine 4
+pop temp 0
+push static 0
+push constant 1
+add
+push static 1
+push static 0
+push constant 3
+add
+push static 1
+push constant 6
+add
+call Screen.drawRectangle 4
+pop temp 0
+push static 0
+push static 1
+push constant 6
+add
+push static 0
+push constant 3
+add
+push static 1
+push constant 9
+add
+call Screen.drawRectangle 4
+pop temp 0
+push constant 0
+return
+function Player2.move 0
+push argument 0
+pop pointer 0
+push argument 1
+push constant 1
+eq
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push pointer 0
+call Player2.moveLeft 1
+pop temp 0
+label IF_FALSE0
+push argument 1
+push constant 2
+eq
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+push pointer 0
+call Player2.moveRight 1
+pop temp 0
+label IF_FALSE1
+push constant 0
+return
+function Player2.setOnGround 0
+push argument 0
+pop pointer 0
+push pointer 0
+call Player2.erase 1
+pop temp 0
+call Ground.getTop 0
+push static 2
+sub
+call Ground.getSpeed 0
+sub
+push constant 1
+sub
+pop static 1
+push pointer 0
+call Player2.draw 1
+pop temp 0
+push constant 0
+return
+function Player2.drop 0
+push argument 0
+pop pointer 0
+push pointer 0
+call Player2.erase 1
+pop temp 0
+push static 1
+push static 2
+add
+push this 1
+add
+call Ground.getTop 0
+lt
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push static 1
+push this 1
+add
+pop static 1
+push pointer 0
+call Player2.draw 1
+pop temp 0
+push this 1
+push constant 2
+add
+pop this 1
+goto IF_END0
+label IF_FALSE0
+call Ground.getTop 0
+push static 2
+sub
+push constant 1
+sub
+pop static 1
+push pointer 0
+call Player2.draw 1
+pop temp 0
+push constant 1
+pop this 2
+label IF_END0
+push constant 0
+return
+function Player2.moveLeft 0
+push argument 0
+pop pointer 0
+push static 0
+push static 3
+sub
+push constant 0
+lt
+not
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push pointer 0
+call Player2.erase 1
+pop temp 0
+push static 0
+push static 3
+sub
+pop static 0
+push pointer 0
+call Player2.draw 1
+pop temp 0
+label IF_FALSE0
+push constant 0
+return
+function Player2.moveRight 0
+push argument 0
+pop pointer 0
+push static 0
+push static 2
+add
+push static 3
+add
+call Interface.getRightBound 0
+gt
+not
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push pointer 0
+call Player2.erase 1
+pop temp 0
+push static 0
+push static 3
+add
+pop static 0
+push pointer 0
+call Player2.draw 1
+pop temp 0
+label IF_FALSE0
+push constant 0
+return
+function Player2.setDir 0
+push argument 0
+pop pointer 0
+push argument 1
+pop this 0
+push constant 0
+return
+function Player2.getX 0
+push static 0
+return
+function Player2.getY 0
+push static 1
+return
+function Player2.getSize 0
+push static 2
+return
+function Player2.getHp 0
+push static 4
+return
+function Player2.hpReduce 0
+push static 4
+push constant 10
+sub
+pop static 4
+push constant 0
+return
+function Player2.setAttack 0
+push argument 0
+pop pointer 0
+push constant 1
+pop static 5
+push constant 0
+return
+function Player2.resetAttack 0
+push argument 0
+pop pointer 0
+push constant 0
+pop static 5
+push constant 0
+return
+function Player2.setMoveUp 0
+push constant 1
+pop static 6
+push constant 0
+return

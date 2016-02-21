@@ -1,0 +1,151 @@
+class PlayerAmmo 
+{
+	static Array Ammo_x;
+	static Array Ammo_y;
+	static int Size;
+	static int AMMO_NUMBER;
+	static int ATTACK_DURATION;
+	static int time;
+	field int speed;
+	field int UP_LEAST;
+	field int DOWN_LEAST;
+
+	constructor PlayerAmmo new() {
+		let AMMO_NUMBER = 100;
+		let Ammo_x = Array.new(AMMO_NUMBER);
+		let Ammo_y = Array.new(AMMO_NUMBER);
+		do Init();
+		let Size = 2;
+		let speed = 10;
+		let ATTACK_DURATION = 3;
+		let time = 0;
+		let UP_LEAST = 0;
+		//let DOWN_LEAST = 255;
+		let DOWN_LEAST = Ground.getTop() - 2;
+		return this;
+	}
+
+	method void Init() {
+		var int i;
+		let i = 0;
+		while (i < AMMO_NUMBER){
+			let Ammo_y[i] = -1;
+			let i = i + 1;
+		}
+		return;
+	}
+
+	method void dispose() {
+		do eraser();
+		do Memory.deAlloc(this);
+		return;
+	}
+
+	method void eraser(){
+		var int i;
+		let i = 0;
+		while (i < AMMO_NUMBER){
+			if (Ammo_y[i] > -1){
+				do Screen.setColor(false);
+				do Screen.drawRectangle(Ammo_x[i], Ammo_y[i], Ammo_x[i] + Size, Ammo_y[i] + Size);
+			}
+			let i = i + 1;
+		}
+		return;
+	}
+
+	function void attack() {
+		var int Px;
+		var int Py;
+		var int i;
+		let Px = Player2.getX();
+		let Py = Player2.getY();
+		let i = 0;
+
+		if (time < ATTACK_DURATION){
+			let time = time + 1;
+			return;
+		}
+
+		while (i < AMMO_NUMBER) {
+			if (Ammo_y[i] = -1) {
+				let Ammo_x[i] = Px;
+				let Ammo_y[i] = Py - Size - 1;
+				let time = 0;
+				return;
+			}
+			let i = i + 1;
+		}
+
+		return;
+	}
+
+	method void run() {
+		var int i;
+		let i = 0;
+		while (i < AMMO_NUMBER) {
+			do drawPlayerAmmo(i);
+			let i = i + 1;
+		}
+
+		return;
+	}
+
+	method void drawPlayerAmmo(int i){
+
+		if (Ammo_y[i] = -1){
+			return;
+		}
+		
+		do Screen.setColor(false);
+		do Screen.drawRectangle(Ammo_x[i], Ammo_y[i], Ammo_x[i] + Size, Ammo_y[i] + Size);
+
+		let Ammo_y[i] = Ammo_y[i] - speed;
+
+		if (OverScreen(i)){
+			let Ammo_y[i] = -1;
+			return;
+		}
+
+		do Hit(i);
+		if (Ammo_y[i] = -1){
+			return;
+		}
+		do Screen.setColor(true);
+		do Screen.drawRectangle(Ammo_x[i], Ammo_y[i], Ammo_x[i] + Size, Ammo_y[i] + Size);
+		return;
+
+	}
+
+	method boolean OverScreen(int i){
+		if ((Ammo_y[i] - Size) < UP_LEAST){
+			return true;
+		}
+		return false;
+	}
+
+	method void Hit(int i){
+		var int Bx;
+		var int By;
+		var int Bsize;
+	        let Bx = Boss.getX();
+		let By = Boss.getY();
+		let Bsize = Boss.getSize();
+
+		if (~Boss.isAlive()) {
+			return;
+		}
+
+		if (Ammo_y[i] = -1){
+			return;
+		}
+
+		if (~(Ammo_x[i] + Size < (Bx - Bsize)) & ~(Ammo_x[i] > (Bx + Bsize))){
+			if (~(Ammo_y[i] > By)){
+			do Boss.hpReduce();
+			let Ammo_y[i] = -1;
+			}
+		}
+		return;
+	}
+}

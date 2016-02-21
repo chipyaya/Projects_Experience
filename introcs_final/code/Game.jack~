@@ -1,0 +1,147 @@
+class Game 
+{ 
+  field Menu menu;
+  field Interface interface;
+  field Stage1 stage1;
+  field Stage2 stage2;
+  field Stage1toStage2 stage1toStage2;
+  field EndScene endScene;
+
+  field int x;
+  field int y;
+  field int randSeedTime;
+  
+  static int playerLastX;
+  static int playerLastY;
+  static int playerLastHp;
+
+  static boolean isStage2;
+  static int DELAY;
+  static boolean exit;
+  
+
+  constructor Game new()
+  {
+    let DELAY = 25;
+    let randSeedTime = 0;
+
+    let playerLastX = 65;
+    let playerLastY = 30;
+    let playerLastHp = 100;
+
+    let isStage2 = false;
+    
+    
+    let exit = false;
+
+    return this;
+  }
+
+  method void dispose()
+  {
+    do interface.dispose();
+
+    do Memory.deAlloc(this);
+    return;
+  }
+
+  method void run()
+  {
+    let menu = Menu.new();
+    do menu.run();
+    do menu.dispose();
+    let interface = Interface.new();
+    while(~ exit)
+    {
+      
+      let stage1 = Stage1.new();
+      do stage1.run();
+      let playerLastX = 130;
+      let playerLastY = 176;
+      let playerLastHp = Player.getHp();
+      do stage1.dispose();
+
+      if(exit)
+      {
+	let endScene = EndScene.new();
+	do endScene.run();
+	do endScene.dispose();
+	do Main.updateFloor(Interface.getFloor());
+	do interface.dispose();
+	return;
+      }
+      let stage1toStage2 = Stage1toStage2.new();
+      do stage1toStage2.run();
+      do stage1toStage2.dispose();
+
+      do Interface.drawConstant();
+
+      let stage2 = Stage2.new();
+      let isStage2 = true;
+      do stage2.run();
+      let playerLastX = Player2.getX();
+      let playerLastY = Player2.getY();
+      let playerLastHp = Player2.getHp();
+      do stage2.dispose();
+      let isStage2 = false;
+
+      if(exit)
+      {
+	let endScene = EndScene.new();
+	do endScene.run();
+	do endScene.dispose();
+	do Main.updateFloor(Interface.getFloor());
+	do interface.dispose();
+	return;
+      }
+    }
+    return;
+  }
+
+  function void setExit()
+  {
+    let exit = true;
+    return;
+  }
+
+
+  function int getDelay()
+  {
+    return DELAY;
+  }
+
+  function boolean isStage2()
+  {
+    return isStage2;
+  }
+
+  function int getPlayerLastX()
+  {
+    return playerLastX;
+  }
+
+  function int getPlayerLastY()
+  {
+    return playerLastY;
+  }
+
+  function int getPlayerLastHp()
+  {
+    return playerLastHp;
+  }
+
+  function void setDelay(int newDelay)
+  {
+    if(newDelay < 0)
+    {
+      return;
+    }
+    if(newDelay > 500)
+    {
+      return;
+    }
+    let DELAY = newDelay;
+    return;
+  }
+
+}

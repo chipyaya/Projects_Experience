@@ -1,0 +1,78 @@
+class Ground {   
+  static int X;
+  static int Y;
+  field int W;
+  field int H;
+  static int stage2End;
+  static int speed;
+  field int beginMoveUp;
+  
+  constructor Ground new() 
+  {
+    let stage2End = 0;
+    let W = Interface.getRightBound();
+    let H = 8;
+    let X = 0;
+    let Y = 255 - H;
+    let speed = 4;
+	let beginMoveUp = 0;
+    do draw();
+    return this;
+  }
+	
+	
+	method void run(){
+		if(stage2End = 1){
+			do Player2.setMoveUp();
+			if(beginMoveUp = 1){
+				do moveUp();
+			}
+			let beginMoveUp = 1;
+			if(Y < ( (30 + Player2.getSize()) + speed + speed )){
+				do Stage2.setExit();
+				
+			}
+		}
+		return;
+	}
+ 
+  method void draw()
+  {
+    do Screen.setColor(true);
+    do Screen.drawRectangle(X,Y,X+W-1,Y+H);
+    return;
+  }
+
+  method void moveUp(){
+	do clear();
+	let Y = Y - speed;
+	do draw();
+	return;
+  }
+  method void clear()
+  {
+      do Screen.setColor(false);
+      do Screen.drawRectangle(X,Y,X+W-1,Y+H);
+      return;
+  }
+
+  method void dispose() 
+  {
+    do clear();
+    do Memory.deAlloc(this);
+    return;
+  }
+
+  function int getSpeed(){
+	return speed;
+  
+  }
+  function int getTop()
+  {
+    return Y;
+  }
+  function void setStage2End(){
+	let stage2End = 1;
+	return;
+  }
+}  

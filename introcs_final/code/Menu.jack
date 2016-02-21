@@ -1,0 +1,397 @@
+class Menu 
+{ 
+  field int randSeedTime;
+  field int fingerLocation;
+  
+  field boolean exit;
+  field int INPUT_DELAY;
+
+  constructor Menu new()
+  {
+    let INPUT_DELAY = 120;
+    let fingerLocation = 0;
+    let exit = false;
+    let randSeedTime = 0;
+    do drawHighScore();
+    do drawTitle();
+    do drawMenu();
+    do setFinger();
+    return this;
+  }
+
+  method void dispose()
+  {
+    do clearAll();
+    do Memory.deAlloc(this);
+    return;
+  }
+
+  method void run()
+  {
+    var int inputKey;
+    while(~exit)
+    {
+      let inputKey = Keyboard.keyPressed();
+      while ( inputKey = 0 )  
+      {
+	 let inputKey = Keyboard.keyPressed();
+	 let randSeedTime = randSeedTime + 1;
+      }
+
+      do Sys.wait(INPUT_DELAY);
+
+      if(inputKey = 131) //up
+      {
+	let fingerLocation = fingerLocation - 1;
+	if(fingerLocation = (-1))
+	{
+	  let fingerLocation = 3;
+	}
+	do setFinger();
+      }
+      else
+      {
+	if(inputKey = 133) //down
+	{
+	  let fingerLocation = fingerLocation + 1;
+	  if(fingerLocation = 4)
+	  {
+	    let fingerLocation = 0;
+	  }
+	  do setFinger();
+	}
+	else
+	{
+	  // enter right space
+	  if( ((inputKey = 128)  | (inputKey = 32)) | (inputKey = 132)) 
+	  {
+	    if(fingerLocation = 0)
+	    {
+	      let fingerLocation = 0;
+	      let exit = true;
+	    }
+	    if(fingerLocation = 1)
+	    {
+	      do howToPlay();
+	    }
+	    if(fingerLocation = 2)
+	    {
+	      do settings();
+	    }
+	    if(fingerLocation = 3)
+	    {
+	      let exit = true;
+	      do Game.setExit();
+	      do Main.setExit();
+	    }
+	  }
+	}
+      }
+      
+    }
+    do Random.setSeed(randSeedTime);
+    return;
+  }
+
+  method void howToPlay()
+  {
+    var char inputKey;
+    do clearMenu();
+    do displayHowToPlay();
+    let inputKey = Keyboard.keyPressed();
+    while ( inputKey = 0 )  
+    {
+       let inputKey = Keyboard.keyPressed();
+    }
+
+    
+    do clearMenu();
+    do drawMenu();
+    do setFinger();
+    do Sys.wait(INPUT_DELAY);
+    return;
+  }
+
+  method void displayHowToPlay()
+  {
+    var String UP;
+    var String LEFT;
+    var String RIGHT;
+    let UP = "UP : SHOOT TO BOSS";
+    let LEFT = "LEFT : MOVE LEFT";
+    let RIGHT = "RIGHT : MOVE RIGHT";
+    do Output.moveCursor(11, 16);
+    do Output.printString(UP);
+    do UP.dispose();
+    do Output.moveCursor(13, 16);
+    do Output.printString(LEFT);
+    do LEFT.dispose();
+    do Output.moveCursor(15, 16);
+    do Output.printString(RIGHT);
+    do RIGHT.dispose();
+    return;
+  }
+
+  method void settings()
+  {
+    var boolean exit;
+    var char inputKey;
+    do clearMenu();
+    do displaySettings();
+    do printDelay();
+    let exit = false;
+    let inputKey = Keyboard.keyPressed();
+    while(~exit)
+    {
+      let inputKey = Keyboard.keyPressed();
+      while ( inputKey = 0 )  
+      {
+	 let inputKey = Keyboard.keyPressed();
+      }
+
+      do Sys.wait(INPUT_DELAY);
+
+      if(inputKey = 130) //left
+      {
+	do Game.setDelay(Game.getDelay() - 5);
+	do printDelay();
+      }
+      else
+      {
+	if(inputKey = 132) //right
+	{
+	  do Game.setDelay(Game.getDelay() + 5);
+	  do printDelay();
+	}
+	else
+	{
+	  // enter right space
+	  if( ((inputKey = 128)  | (inputKey = 32)) | (inputKey = 132)) 
+	  {
+	      let exit = true;
+	  }
+	}
+      }
+      
+    }
+
+    
+    do clearMenu();
+    do drawMenu();
+    do setFinger();
+    do Sys.wait(INPUT_DELAY);
+    return;
+  }
+
+  method void displaySettings()
+  {
+    var String REFRESH_RATE;
+    var String PRESS;
+    var String CHANGE;
+    let REFRESH_RATE = "REFRESH RATE : ";
+    let PRESS = "PRESS LEFT OR RIGHT";
+    let CHANGE ="           TO CHANGE";
+    do Output.moveCursor(11, 16);
+    do Output.printString(PRESS);
+    do PRESS.dispose();
+    do Output.moveCursor(12, 16);
+    do Output.printString(CHANGE);
+    do CHANGE.dispose();
+    do Output.moveCursor(14, 16);
+    do Output.printString(REFRESH_RATE);
+    do REFRESH_RATE.dispose();
+    return;
+  }
+
+  method void printDelay()
+  {
+    var String WHITESPACE3;
+    let WHITESPACE3 = ("   ");
+    do Output.moveCursor(14, 31);
+    do Output.printString(WHITESPACE3);
+    do WHITESPACE3.dispose();
+    do Output.moveCursor(14, 31);
+    do Output.printInt(Game.getDelay());
+    return;
+  }
+
+  method void drawTitle()
+  {
+    var int i;
+    var String GOGOMAN;
+    let GOGOMAN = " GO GO MAN";
+    do Screen.setColor(true);
+    do Screen.drawRectangle(110,40,300,224);
+    do Screen.setColor(false);
+    do Screen.drawRectangle(120,50,290,84);
+	
+	//arc
+	do Screen.setColor(true);
+	do Screen.drawRectangle(120,50,130,60);
+	do Screen.drawRectangle(280,50,290,60);
+
+	do Screen.setColor(false);
+	do Screen.drawCircle(130,60,10);
+	do Screen.drawCircle(280,60,10);
+   //arc end
+	
+	do Screen.setColor(false);
+        do Screen.drawRectangle(120,95,290,214);
+	
+	//arc
+	do Screen.setColor(true);
+	do Screen.drawRectangle(120,204,130,214);
+	do Screen.setColor(false);
+	do Screen.drawCircle(130,204,10);
+	
+	do Screen.setColor(true);
+	do Screen.drawRectangle(280,204,290,214);
+	do Screen.setColor(false);
+	do Screen.drawCircle(280,204,10);
+	//arc end
+	
+    do Output.moveCursor(6, 20);
+    do Output.printString(GOGOMAN);
+    do GOGOMAN.dispose();
+    do Screen.setColor(true);
+    let i = 110;
+    while(i  < 300)
+    {
+      do Screen.drawLine(i,40,i+20,30);
+      let i = i + 3;
+    }
+    let i = 40;
+    while(i  < 226)
+    {
+      do Screen.drawLine(301,i,321,(i - 10));
+      let i = i + 2;
+    }
+    return;
+  }
+
+  method void clearAll()
+  {
+    var int i;
+    do Screen.setColor(false);
+    do Screen.drawRectangle(110,40,300,224);
+    do Screen.drawRectangle(300,120,500,220);
+    let i = 110;
+    while(i  < 300)
+    {
+      do Screen.drawLine(i,40,i+20,30);
+      let i = i + 3;
+    }
+    let i = 40;
+    while(i  < 226)
+    {
+      do Screen.drawLine(301,i,321,(i - 10));
+      let i = i + 2;
+    }
+    return;
+  }
+
+  method void drawMenu()
+  {
+    var String NEWGAME;
+    var String HOWTOPLAY;
+    var String SETTINGS;
+    var String EXITGAME;
+    let NEWGAME = ("NEW GAME");
+    let HOWTOPLAY = ("HOW TO PLAY");
+    let SETTINGS = ("SETTINGS");
+    let EXITGAME = ("EXIT GAME");
+    do Output.moveCursor(11, 20);
+    do Output.printString(NEWGAME);
+    do NEWGAME.dispose();
+    do Output.moveCursor(13, 20);
+    do Output.printString(HOWTOPLAY);
+    do HOWTOPLAY.dispose();
+    do Output.moveCursor(15, 20);
+    do Output.printString(SETTINGS);
+    do SETTINGS.dispose();
+    do Output.moveCursor(17, 20);
+    do Output.printString(EXITGAME);
+    do EXITGAME.dispose();
+    return;
+  }
+
+  method void clearMenu()
+  {
+    do Screen.setColor(false);   
+    do Screen.drawRectangle(120,100,290,200);
+    return;
+  }
+
+  method void setFinger()
+  {
+    do drawFinger(126,119,false);
+    do drawFinger(126,141,false);
+    do drawFinger(126,163,false);
+    do drawFinger(126,185,false);
+
+    if(fingerLocation = 0)
+    {
+      do drawFinger(126,119,true);
+    }
+
+    if(fingerLocation = 1)
+    {
+      do drawFinger(126,141,true);
+    }
+    if(fingerLocation = 2)
+    {
+      do drawFinger(126,163,true);
+    }
+
+    if(fingerLocation = 3)
+    {
+      do drawFinger(126,185,true);
+    }
+    return;
+  }
+
+  method void drawFinger(int x, int y, boolean color)
+  {
+    do Screen.setColor(color);
+    do Screen.drawLine(x+8,y+4,x+17,y+4);
+    do Screen.drawLine(x+17,y+4,x+17,y+6);
+    do Screen.drawLine(x+17,y+6,x+11,y+6);
+    do Screen.drawLine(x+13,y+6,x+13,y+8);
+    do Screen.drawLine(x+12,y+9,x+10,y+9);
+    do Screen.drawLine(x+12,y+9,x+12,y+11);
+    do Screen.drawLine(x+11,y+12,x+10,y+12);
+    do Screen.drawLine(x+11,y+12,x+11,y+13);
+    do Screen.drawLine(x+11,y+13,x+10,y+15);
+    do Screen.drawLine(x+10,y+15,x+6,y+15);
+    do Screen.drawLine(x+5,y+14,x+2,y+14);
+    do Screen.drawLine(x+2,y+13,x,y+13);
+    do Screen.drawLine(x,y+13,x,y+5);
+    do Screen.drawLine(x,y+5,x+2,y+5);
+    do Screen.drawLine(x+2,y+4,x+4,y+4);
+    do Screen.drawLine(x+5,y+3,x+6,y+3);
+    do Screen.drawLine(x+7,y+2,x+8,y+2);
+    do Screen.drawLine(x+8,y+2,x+10,y);
+    do Screen.drawLine(x+10,y,x+12,y);
+    do Screen.drawLine(x+12,y,x+12,y+2);
+    do Screen.drawLine(x+12,y+2,x+10,y+4);
+    return;
+  }
+
+  method void drawHighScore()
+  {
+    var String MAXKILLBOSS;
+    var String MAXFLOOR;
+    let MAXFLOOR = ("MAX FLOORS REACHED");
+    do Output.moveCursor(12, 44);
+    do Output.printString(MAXFLOOR);
+    do MAXFLOOR.dispose();
+	do Output.moveCursor(14, 44);
+	do Output.printChar(66);
+    do Output.moveCursor(14, 45);
+    do Output.printInt(Main.getMaxFloor());
+
+    return;
+  }
+
+
+}

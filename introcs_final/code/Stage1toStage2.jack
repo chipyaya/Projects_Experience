@@ -1,0 +1,256 @@
+class Stage1toStage2 
+{
+	field int LEFT_LIMIT;
+	field int RIGHT_LIMIT;
+	field int DELAY;
+	
+	constructor Stage1toStage2 new() {
+		let DELAY = Game.getDelay();
+		return this;
+	}
+
+	method void dispose() {
+		do Memory.deAlloc(this);
+		return;
+	}
+
+
+	method void drowPlayer() {
+		do Screen.setColor(true);
+		do Screen.drawCircle(200, 128, 80);
+		do Screen.setColor(false);
+		do Screen.drawCircle(200, 128, 75);
+
+		do Screen.setColor(true);
+		do Screen.drawRectangle(198, 206, 202, 255);
+		do Screen.drawLine(198, 230, 50, 150);
+		do Screen.drawLine(198, 231, 50, 151);
+		do Screen.drawLine(198, 232, 50, 152);
+		do Screen.drawLine(202, 230, 350, 150);
+		do Screen.drawLine(202, 231, 350, 151);
+		do Screen.drawLine(202, 232, 350, 152);
+		do Screen.drawCircle(150, 130, 5);
+		do Sys.wait(300 - DELAY);
+
+		do Screen.setColor(false);
+		do Screen.drawCircle(150, 130, 5);
+		do Screen.setColor(true);
+		do Screen.drawCircle(250, 100, 5);
+		do Screen.drawRectangle(370, 30, 380, 60);
+		do Screen.drawCircle(375, 80, 5);
+		do Screen.drawRectangle(400, 20, 410, 70);
+		do Screen.drawCircle(405, 90, 5);
+		do Sys.wait(500 - DELAY);
+		return;
+	}
+
+	method void BossAppearance(int x, int y) {
+
+		do Screen.drawRectangle(x - 60, y, x - 40, y + 60);
+		do Screen.drawRectangle(x - 40, y + 20, x - 10, y + 40);
+		do Screen.drawRectangle(x - 10, y, x - 4, y + 80);
+		do Screen.drawCircle(x, y + 90, 6);
+		do Screen.drawRectangle(x + 4, y, x + 10, y + 80);
+		do Screen.drawRectangle(x + 10, y + 20, x + 40, y + 40);
+		do Screen.drawRectangle(x + 40, y, x + 60, y + 60);
+
+		do Screen.drawRectangle(x - 34, y + 40, x - 26, y + 100);
+		do Screen.drawRectangle(x + 26, y + 40, x + 34, y + 100);
+
+		do Screen.setColor(false);
+		do Screen.drawCircle(x, y + 90, 2);
+		return;
+	}
+
+	method void Bossappear() {
+		var int x, y;
+		var int i;
+		let x = 435;
+		let y = 30;
+		let i = 5;
+		do Screen.setColor(true);
+		do BossAppearance(x, y);
+
+		while (~(i < 0)){
+			do Screen.setColor(false);
+			do BossAppearance(x, y);
+
+			let x = x - 30;
+			let y = y + 10;
+			do Screen.setColor(true);
+			do BossAppearance(x, y);
+
+			do Sys.wait(150 - DELAY);
+			let i = i - 1;
+		}
+
+		while (true){
+			do Screen.setColor(false);
+			do BossAppearance(x, y);
+
+			let y = y - 15;
+
+			if (y < 0) {
+				return;
+			}
+			do Screen.setColor(true);
+			do BossAppearance(x, y);
+
+			do Sys.wait(150 - DELAY);
+		}
+
+		return;
+
+	}
+
+	method void Bossattack() {
+		var int size;
+		var int x1, x2, x3;
+		var int y;
+		var int speed;
+
+		let x1 = 255 - 32;
+		let x2 = 253;
+		let x3 = 255 + 32;
+		let y = 100 + 1;
+		let speed = 6;
+		let size = 4;
+
+
+		do Screen.setColor(true);
+		do Screen.drawRectangle(x1, y, x1 + size, y + size);
+		do Screen.drawRectangle(x2, y, x2 + size, y + size);
+		do Screen.drawRectangle(x3, y, x3 + size, y + size);
+
+		while (true) {
+			do Screen.setColor(true);
+			do BossAppearance(255, 0);
+
+			do Screen.setColor(false);
+			do Screen.drawRectangle(x1, y, x1 + size, y + size);
+			do Screen.drawRectangle(x2, y, x2 + size, y + size);
+			do Screen.drawRectangle(x3, y, x3 + size, y + size);
+
+			let y = y + speed;
+			if (y + size > 255) {
+				return;
+			}
+
+			do Screen.setColor(true);
+			do Screen.drawRectangle(x1, y, x1 + size, y + size);
+			do Screen.drawRectangle(x2, y, x2 + size, y + size);
+			do Screen.drawRectangle(x3, y, x3 + size, y + size);
+
+			do Sys.wait(DELAY);
+		}
+		return;
+	}
+
+	method void draw(int x, int y) {
+		do Screen.drawCircle(x + 18, y + 12, 12);
+		do Screen.drawLine(x + 18, y + 24, x + 18, y + 30);
+		do Screen.drawLine(x, y + 12, x + 18, y + 30);
+		do Screen.drawLine(x + 36, y + 12, x + 18, y + 30);
+		do Screen.drawLine(x + 18, y + 30, x + 10, y + 36);
+		do Screen.drawLine(x + 18, y + 30, x + 28, y + 36);
+		return;
+    	}
+
+	method void PlarerJump() {
+		var int size;
+		var int x1, x2, x3;
+		var int y;
+		var int speed;
+		var int px, py, pspeed;
+		var boolean flag;
+
+		let x1 = 255 - 32;
+		let x2 = 253;
+		let x3 = 255 + 32;
+		let y = 1;
+		let speed = 6;
+		let size = 4;
+		let px = 250;
+		let py = 144;
+		let pspeed = 4;
+		let flag = true;
+
+		do Screen.setColor(true);
+		do Screen.drawRectangle(200, 180, 300, 200);
+
+		do draw(px, py);
+
+		while (true) {
+			if (px > 210) {
+				do Screen.setColor(false);
+				do draw(px, py);
+
+				let px = px - pspeed;
+
+				do Screen.setColor(true);
+				do Screen.drawRectangle(200, 180, 300, 200);
+				do draw(px, py);
+			}
+			else {
+				if ((py > 100) & flag) {
+					do Screen.setColor(false);
+					do draw(px, py);
+
+					let px = px - pspeed;
+					let py = py - 5;
+
+					do Screen.setColor(true);
+					do Screen.drawRectangle(200, 180, 300, 200);
+					do draw(px, py);
+				}
+
+				else {
+					let flag = false;
+					do Screen.setColor(false);
+					do draw(px, py);
+
+					let px = px - pspeed;
+					let py = py + 7;
+
+					do Screen.setColor(true);
+					do Screen.drawRectangle(200, 180, 300, 200);
+					do draw(px, py);
+				}
+				
+			}
+
+			do Screen.setColor(false);
+			do Screen.drawRectangle(x1, y, x1 + size, y + size);
+			do Screen.drawRectangle(x2, y, x2 + size, y + size);
+			do Screen.drawRectangle(x3, y, x3 + size, y + size);
+
+			let y = y + speed;
+			if (y + size > 180) {
+				return;
+			}
+
+			do Screen.setColor(true);
+			do Screen.drawRectangle(x1, y, x1 + size, y + size);
+			do Screen.drawRectangle(x2, y, x2 + size, y + size);
+			do Screen.drawRectangle(x3, y, x3 + size, y + size);
+
+			do Sys.wait(DELAY);
+		}
+
+		return;
+	}
+
+	method void run() {
+		do Screen.clearScreen();
+		do drowPlayer();
+	    	do Screen.clearScreen();
+	    	do Bossappear();
+		do Sys.wait(50);
+	    	do Bossattack();
+	    	do Screen.clearScreen();
+	    	do PlarerJump();
+		do Sys.wait(50);
+		do Screen.clearScreen();
+		return;
+	}
+}

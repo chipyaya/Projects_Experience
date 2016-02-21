@@ -1,0 +1,49 @@
+class Main {   
+  static boolean exit;
+  static Game game;
+
+
+  static int maxFloor;
+  static int DELAY;
+
+  function void main() 
+  {  
+    let DELAY = 25; //default
+    let maxFloor = 0;
+    let exit = false;
+    while(~ exit)
+    {
+      let game = Game.new();
+      do game.run();
+      let DELAY = Game.getDelay();
+      do game.dispose();
+      
+    }
+    return;
+  }
+
+  function void setExit()
+  {
+    let exit = true;
+    return;
+  }
+
+  function void updateFloor(int n)
+  {
+    let maxFloor = Math.max(n,maxFloor);
+    return;
+  }
+
+  function int getMaxFloor()
+  {
+    return maxFloor;
+  }
+
+  function int getDelay()
+  {
+    return DELAY;
+  }
+
+
+
+}

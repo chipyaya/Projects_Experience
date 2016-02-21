@@ -1,0 +1,208 @@
+class Player{
+	static int x, y;
+	static int size;
+	field int downDistance;
+	field int dir;
+	static int PIXEL;
+	static int hp;
+	static int reverse;
+
+	
+	constructor Player new(){
+		let x = Game.getPlayerLastX();
+		let y = Game.getPlayerLastY();
+		let size = 18;
+		let downDistance = 1;
+		let hp = Game.getPlayerLastHp();
+		let dir = 0; 	//freeze
+		let PIXEL = 8;
+		do draw();
+		return this;
+	}
+	
+	method void run(){
+		if(isOnBricks()){
+			do setOnBricks(Bricks.getBricksY(x,y,size,downDistance));
+			
+		}
+		else{
+			do drop();
+		}
+		
+		do move(dir);
+		
+		if(~(hp > 0)){
+			do Stage1.setExit();
+			do Game.setExit();
+			do Sys.wait(1000);
+		}
+		return;
+	}
+	
+	/** Deallocates the object's memory. */
+    method void dispose() {
+		do erase();
+        do Memory.deAlloc(this);
+        return;
+    }
+
+    /** Draws the player on the screen. */
+    method void draw() {
+        do Screen.setColor(true);
+		do Screen.drawCircle(x + 9, y + 6, 6);
+        do Screen.drawLine(x + 9, y + 12, x + 9, y + 15);
+        do Screen.drawLine(x, y + 6, x + 9, y + 15);
+        do Screen.drawLine(x + 18, y + 6, x + 9, y + 15);
+        do Screen.drawLine(x + 9, y + 15, x + 5, y + 18);
+        do Screen.drawLine(x + 9, y + 15, x + 14, y + 18);
+		return;
+    }
+	
+
+    /** Erases the player from the screen. */
+    method void erase() {
+        do Screen.setColor(false);
+        do Screen.drawCircle(x + 9, y + 6, 6);
+        do Screen.drawLine(x + 9, y + 12, x + 9, y + 15);
+        do Screen.drawLine(x, y + 6, x + 9, y + 15);
+        do Screen.drawLine(x + 18, y + 6, x + 9, y + 15);
+        do Screen.drawLine(x + 9, y + 15, x + 5, y + 18);
+        do Screen.drawLine(x + 9, y + 15, x + 14, y + 18);
+		
+		return;
+    }
+	
+	/**Check whether the player is on a Bricks. */
+	method boolean isOnBricks(){
+		return Bricks.isOnBricks(x, y, size, downDistance);
+	}
+	
+	
+	
+	/** Set the player on the Bricks, and set distance = 1. */
+	method void setOnBricks(int ay){
+		do erase();
+		let y = ay - size - Bricks.getSpeed();
+		do draw();
+		let downDistance = 1;
+		return;
+	}
+	
+	/**Drop down with g. */
+	method void drop(){
+		do erase();
+		if ((y + size + downDistance) < 256) {
+			let y = y + downDistance;
+			do draw();
+			let downDistance = downDistance + 2;
+			
+		}
+		else{
+			do Stage1.setExit();
+			do Game.setExit();
+			do Sys.wait(1000);
+		}
+		return;
+	
+	}
+	
+	
+	
+	method void setDir(int adir){
+		let dir = adir;
+		return;
+	}
+	
+	method void move(int dir){
+		if(reverse = 0){
+			if(dir = 1){ //left
+				do moveLeft();
+			}
+			if(dir = 2){	//right
+				do moveRight();
+			}
+		}else{
+			if(dir = 1){ 
+				do moveRight();
+			}
+			if(dir = 2){	
+				do moveLeft();
+			}
+		}
+		return;
+	}
+	
+	/** Moves left by 2 pixels. */
+    method void moveLeft() {
+        if (~(x - PIXEL < 0)) {
+            do erase();
+            let x = x - PIXEL;
+            do draw();
+        }
+        return;
+    }
+
+    /** Moves right by 2 pixels. */
+    method void moveRight() {
+        if (~((x + size + PIXEL) > Interface.getRightBound())) {
+            do erase();
+            let x = x + PIXEL;
+            do draw();
+        }
+        return;
+    }
+	
+	function int getX(){
+		return x;
+	}
+	function int getY(){
+		return y;
+	}
+	
+	function int getSize(){
+		return size;
+	}
+
+	function int getHp(){
+		return hp;
+	}
+	
+	
+	function void hpReduce(){
+		let hp = hp - 10;
+		return;
+	}
+
+	function void hpReduceByBrick(){
+		let hp = hp - 40;
+		return;
+	}
+
+	function void hpIncrease(){
+	        if( ~((hp + 10) > 100)  )
+		{
+		  let hp = hp + 10;
+		}
+		
+		return;
+	}
+	
+	function void setSmallPixel(){
+		let PIXEL = 8 - 3;
+		return;
+	}
+	
+	function void resetPixel(){
+		let PIXEL = 8;
+		return;
+	}
+	function void setReverse(){
+		let reverse = 1;
+		return;
+	}
+	function void resetReverse(){
+		let reverse = 0;
+		return;
+	}
+	
+}

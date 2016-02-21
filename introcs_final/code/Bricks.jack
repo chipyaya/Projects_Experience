@@ -1,0 +1,240 @@
+class Bricks {
+  static Brick brick0, brick1, brick2, brick3, brick4, brick5
+              ,brick6, brick7; 
+  field int MAX_BRICK;
+  field int time;
+  field int nextAppearBrickNumber;
+  field int BRICK_APPEAR_DURATION;
+
+  static int speed;
+  /*
+   * type: 0 - empty
+   *       1 - normal
+   *       2 - slow
+   *       3 - thorn
+   *       4 - reverse
+   */
+
+  constructor Bricks new() 
+  {
+    let speed = 2;
+    let BRICK_APPEAR_DURATION = 15;
+    if(Interface.getChapter() > 2)
+    {
+      let speed = 3;
+      let BRICK_APPEAR_DURATION = 13;
+    }
+    if(Interface.getChapter() > 4)
+    {
+      let speed = 4;
+      let BRICK_APPEAR_DURATION = 10;
+    }
+    let MAX_BRICK = 8;
+    let time = 0;
+    
+    let nextAppearBrickNumber = 1;
+    let brick0 = Brick.new( (Game.getPlayerLastX() - 40) , 1);
+    let brick1 = Brick.newEmpty();
+    let brick2 = Brick.newEmpty();
+    let brick3 = Brick.newEmpty();
+    let brick4 = Brick.newEmpty();
+    let brick5 = Brick.newEmpty();
+    let brick6 = Brick.newEmpty();
+    let brick7 = Brick.newEmpty();
+    return this;
+  }
+
+  method void dispose()
+  {
+    do brick0.dispose();
+    do brick1.dispose();
+    do brick2.dispose();
+    do brick3.dispose();
+    do brick4.dispose();
+    do brick5.dispose();
+    do brick6.dispose();
+    do brick7.dispose();
+
+    do Memory.deAlloc(this);
+    return;
+  }
+
+  method void run()
+  {
+    if(time = BRICK_APPEAR_DURATION)
+    {
+      let time = 0;
+      do appearBrick(nextAppearBrickNumber);
+
+      let nextAppearBrickNumber = nextAppearBrickNumber + 1;
+      if(nextAppearBrickNumber = MAX_BRICK)
+      {
+	let nextAppearBrickNumber = 0;
+      }
+    }
+    else
+    {
+      let time = time + 1;
+    }
+
+    do brick0.move();
+    do brick1.move();
+    do brick2.move();
+    do brick3.move();
+    do brick4.move();
+    do brick5.move();
+    do brick6.move();
+    do brick7.move();
+
+    return;
+  }
+
+  method void appearBrick(int index)
+  {
+    if(index = 0)
+    {
+      if( ~(brick0.getType() = 0))
+      {
+        do Output.printString("lack of bricks or too short durations!");
+	do Sys.error(998);
+      }
+      do brick0.dispose();
+      let brick0 = Brick.new(Random.rand(0,310), Bricks.randomType());
+    }
+
+    if(index = 1)
+    {
+      do brick1.dispose();
+      let brick1 = Brick.new(Random.rand(0,310), Bricks.randomType());
+    }
+
+    if(index = 2)
+    {
+      do brick2.dispose();
+      let brick2 = Brick.new(Random.rand(0,310), Bricks.randomType());
+    }
+
+    if(index = 3)
+    {
+      do brick3.dispose();
+      let brick3 = Brick.new(Random.rand(0,310), Bricks.randomType());
+    }
+
+    if(index = 4)
+    {
+      do brick4.dispose();
+      let brick4 = Brick.new(Random.rand(0,310), Bricks.randomType());
+    }
+
+    if(index = 5)
+    {
+      do brick5.dispose();
+      let brick5 = Brick.new(Random.rand(0,310), Bricks.randomType());
+    }
+
+    if(index = 6)
+    {
+      do brick6.dispose();
+      let brick6 = Brick.new(Random.rand(0,310), Bricks.randomType());
+    }
+
+    if(index = 7)
+    {
+      do brick7.dispose();
+      let brick7 = Brick.new(Random.rand(0,310), Bricks.randomType());
+    }
+
+    return;
+  }
+
+  function int getSpeed()
+  {
+    return speed;
+  }
+
+  function int randomType()
+  {
+    
+    var int n;
+    let n = Random.rand(0,399);
+    if(n < 100)
+    {
+      return 1;
+    }
+    if(n < 200)
+    {
+      return 2;
+    }
+    if(n < 300)
+    {
+      return 3;
+    }
+    if(n < 400)
+    {
+      return 4;
+    }
+    return 0;
+
+  }
+
+  function boolean isOnBricks(int x, int y, int size , int distance)
+  {
+    /// -1 means not on any bricks
+    if( Bricks.getBricksY(x,y,size,distance) = -1)
+    {
+      return false;
+    }
+    else
+    {
+      return true;
+    }
+
+  }
+
+  function int getBricksY(int x, int y, int size , int distance)
+  {
+    if ( brick0.isPlayerStandingOn(x,y,size,distance) )
+    {
+      return brick0.getY();
+    }
+
+    if ( brick1.isPlayerStandingOn(x,y,size,distance) )
+    {
+      return brick1.getY();
+    }
+    
+    if ( brick2.isPlayerStandingOn(x,y,size,distance) )
+    {
+      return brick2.getY();
+    }
+
+    if ( brick3.isPlayerStandingOn(x,y,size,distance) )
+    {
+      return brick3.getY();
+    }
+
+    if ( brick4.isPlayerStandingOn(x,y,size,distance) )
+    {
+      return brick4.getY();
+    }
+
+    if ( brick5.isPlayerStandingOn(x,y,size,distance) )
+    {
+      return brick5.getY();
+    }
+
+    if ( brick6.isPlayerStandingOn(x,y,size,distance) )
+    {
+      return brick6.getY();
+    }
+
+    if ( brick7.isPlayerStandingOn(x,y,size,distance) )
+    {
+      return brick7.getY();
+    }
+
+    return -1; // not found
+    
+  }
+
+}

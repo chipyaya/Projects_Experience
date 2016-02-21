@@ -1,0 +1,105 @@
+class Stage2
+{ 
+  field Boss boss;
+  field BossAmmo bossAmmo;
+  field PlayerAmmo playerAmmo;
+  field Player2 player2;
+  field Ground ground;
+  
+
+  static boolean exit;
+
+  constructor Stage2 new()
+  {
+    let ground = Ground.new();
+    let boss = Boss.new();
+    let bossAmmo = BossAmmo.new();
+    let playerAmmo = PlayerAmmo.new();
+    let player2 = Player2.new();
+
+    let exit = false;
+    return this;
+  }
+
+  method void dispose()
+  {
+    do boss.dispose();
+    do bossAmmo.dispose();
+    do playerAmmo.dispose();
+    do ground.dispose();
+    do player2.dispose();
+
+    do Memory.deAlloc(this);
+    return;
+  }
+
+  method void run()
+  {
+    var char inputKey;
+
+    while(~ exit)
+    {
+      do player2.setDir(0);
+      // waits for a key to be pressed.
+      while ( (inputKey = 0) & (~exit) ) 
+      {
+	  let inputKey = Keyboard.keyPressed();
+	  do process_objects();
+      }
+
+      // left button
+      if(inputKey = 130) 
+      {
+	do player2.setDir(1);
+      }
+      else 
+      {
+	// right button
+	if(inputKey = 132) 
+	{
+	  do player2.setDir(2);
+	}
+	else
+	{
+	  // up button
+	  if(inputKey = 131)
+	  {
+	    do player2.setAttack();
+	  }
+
+	}
+      }  
+
+      // Waits for the key to be released.
+      while ( (~(inputKey = 0)) & (~exit)) 
+      {
+	let inputKey = Keyboard.keyPressed();
+	do process_objects();
+      }
+      do player2.resetAttack();
+    }
+ 
+    // exit = 1, stop running the game
+    return;
+  }
+
+  method void process_objects()
+  {
+    //do player2.run();
+    do boss.run();
+    do bossAmmo.run();
+    do playerAmmo.run();
+    do ground.run();
+    do Interface.run();
+    do player2.run();
+
+    do Sys.wait(Game.getDelay());
+    return;
+  }
+
+  function void setExit()
+  {
+    let exit = true;
+    return;
+  }
+}

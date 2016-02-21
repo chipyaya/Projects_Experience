@@ -1,0 +1,483 @@
+function Interface.new 0
+push constant 1
+call Memory.alloc 1
+pop pointer 0
+push constant 410
+pop static 0
+push constant 5
+pop static 5
+push constant 1
+pop static 4
+push constant 1
+pop static 6
+push constant 5
+pop static 7
+push constant 0
+pop static 8
+call Interface.drawConstant 0
+pop temp 0
+call Interface.refresh 0
+pop temp 0
+push pointer 0
+return
+function Interface.timeInc 0
+push static 3
+push constant 1
+add
+pop static 3
+push constant 0
+return
+function Interface.time2floor 0
+push static 3
+push constant 50
+eq
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push static 4
+push constant 1
+add
+pop static 4
+push constant 0
+pop static 3
+label IF_FALSE0
+push constant 0
+return
+function Interface.drawfence 5
+push constant 1
+pop local 0
+push constant 0
+not
+call Screen.setColor 1
+pop temp 0
+push static 0
+push constant 0
+push static 0
+push constant 5
+add
+push constant 255
+call Screen.drawRectangle 4
+pop temp 0
+push constant 0
+call Screen.setColor 1
+pop temp 0
+label WHILE_EXP0
+push local 0
+push constant 255
+push constant 1
+sub
+lt
+not
+if-goto WHILE_END0
+push static 0
+push constant 2
+add
+push local 0
+push constant 1
+call Screen.drawCircle 3
+pop temp 0
+push local 0
+push constant 2
+add
+pop local 0
+goto WHILE_EXP0
+label WHILE_END0
+push constant 0
+pop local 1
+push constant 415
+pop local 2
+push constant 500
+pop local 3
+push constant 245
+pop local 4
+push constant 0
+not
+call Screen.setColor 1
+pop temp 0
+label WHILE_EXP1
+push local 1
+push constant 255
+gt
+not
+not
+if-goto WHILE_END1
+push local 3
+push local 4
+push constant 511
+push local 1
+call Screen.drawLine 4
+pop temp 0
+push local 1
+push constant 3
+add
+pop local 1
+goto WHILE_EXP1
+label WHILE_END1
+label WHILE_EXP2
+push local 2
+push constant 511
+gt
+not
+not
+if-goto WHILE_END2
+push local 3
+push local 4
+push local 2
+push constant 255
+call Screen.drawLine 4
+pop temp 0
+push local 2
+push constant 2
+add
+pop local 2
+goto WHILE_EXP2
+label WHILE_END2
+push constant 0
+call Screen.setColor 1
+pop temp 0
+push constant 0
+pop local 1
+push constant 415
+pop local 2
+push constant 450
+pop local 3
+push constant 200
+pop local 4
+label WHILE_EXP3
+push local 1
+push constant 255
+gt
+not
+not
+if-goto WHILE_END3
+push local 3
+push local 4
+push constant 511
+push local 1
+call Screen.drawLine 4
+pop temp 0
+push local 1
+push constant 3
+add
+pop local 1
+goto WHILE_EXP3
+label WHILE_END3
+label WHILE_EXP4
+push local 2
+push constant 511
+gt
+not
+not
+if-goto WHILE_END4
+push local 3
+push local 4
+push local 2
+push constant 255
+call Screen.drawLine 4
+pop temp 0
+push local 2
+push constant 2
+add
+pop local 2
+goto WHILE_EXP4
+label WHILE_END4
+push constant 0
+return
+function Interface.HPdisplay 4
+push argument 1
+pop local 3
+push argument 1
+pop local 0
+push constant 2
+pop local 1
+label WHILE_EXP0
+push local 3
+push constant 2
+lt
+not
+not
+if-goto WHILE_END0
+push local 3
+push argument 2
+call Output.moveCursor 2
+pop temp 0
+push local 3
+push argument 2
+push constant 1
+add
+call Output.moveCursor 2
+pop temp 0
+push constant 32
+call Output.printChar 1
+pop temp 0
+push local 3
+push constant 1
+sub
+pop local 3
+goto WHILE_EXP0
+label WHILE_END0
+push argument 1
+pop local 3
+push argument 0
+pop local 2
+label WHILE_EXP1
+push local 2
+push constant 0
+gt
+push local 3
+push constant 2
+lt
+not
+and
+not
+if-goto WHILE_END1
+push local 3
+push argument 2
+call Output.moveCursor 2
+pop temp 0
+push constant 20
+call Output.printChar 1
+pop temp 0
+push local 2
+push constant 10
+sub
+pop local 2
+push local 3
+push constant 1
+sub
+pop local 3
+push argument 3
+not
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push constant 50
+call Sys.wait 1
+pop temp 0
+label IF_FALSE0
+goto WHILE_EXP1
+label WHILE_END1
+push argument 1
+pop local 3
+label WHILE_EXP2
+push local 2
+push constant 0
+gt
+push local 3
+push constant 2
+lt
+not
+and
+not
+if-goto WHILE_END2
+push local 3
+push argument 2
+push constant 1
+add
+call Output.moveCursor 2
+pop temp 0
+push constant 20
+call Output.printChar 1
+pop temp 0
+push local 2
+push constant 10
+sub
+pop local 2
+push local 3
+push constant 1
+sub
+pop local 3
+push argument 3
+not
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+push constant 50
+call Sys.wait 1
+pop temp 0
+label IF_FALSE1
+goto WHILE_EXP2
+label WHILE_END2
+push constant 0
+return
+function Interface.drawConstant 0
+call Interface.drawfence 0
+pop temp 0
+push constant 19
+push constant 53
+call Output.moveCursor 2
+pop temp 0
+push constant 76
+call Output.printChar 1
+pop temp 0
+push constant 21
+push constant 53
+call Output.moveCursor 2
+pop temp 0
+push constant 70
+call Output.printChar 1
+pop temp 0
+push constant 21
+push constant 54
+call Output.moveCursor 2
+pop temp 0
+push constant 76
+call Output.printChar 1
+pop temp 0
+push constant 21
+push constant 55
+call Output.moveCursor 2
+pop temp 0
+push constant 79
+call Output.printChar 1
+pop temp 0
+push constant 21
+push constant 56
+call Output.moveCursor 2
+pop temp 0
+push constant 79
+call Output.printChar 1
+pop temp 0
+push constant 21
+push constant 57
+call Output.moveCursor 2
+pop temp 0
+push constant 82
+call Output.printChar 1
+pop temp 0
+push constant 21
+push constant 58
+call Output.moveCursor 2
+pop temp 0
+push constant 58
+call Output.printChar 1
+pop temp 0
+push constant 21
+push constant 59
+call Output.moveCursor 2
+pop temp 0
+push constant 66
+call Output.printChar 1
+pop temp 0
+push constant 0
+return
+function Interface.refresh 0
+push constant 21
+push constant 60
+call Output.moveCursor 2
+pop temp 0
+push static 4
+call Output.printInt 1
+pop temp 0
+call Game.isStage2 0
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push constant 19
+push constant 57
+call Output.moveCursor 2
+pop temp 0
+push constant 66
+call Output.printChar 1
+pop temp 0
+call Player2.getHp 0
+pop static 1
+call Boss.getHp 0
+pop static 2
+push static 2
+push constant 18
+push constant 57
+push static 8
+call Interface.HPdisplay 4
+pop temp 0
+push constant 0
+not
+pop static 8
+goto IF_END0
+label IF_FALSE0
+push constant 19
+push constant 57
+call Output.moveCursor 2
+pop temp 0
+push constant 32
+call Output.printChar 1
+pop temp 0
+call Player.getHp 0
+pop static 1
+label IF_END0
+push static 1
+push constant 18
+push constant 53
+push constant 0
+not
+call Interface.HPdisplay 4
+pop temp 0
+call Game.isStage2 0
+not
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+call Interface.timeInc 0
+pop temp 0
+call Interface.time2floor 0
+pop temp 0
+label IF_FALSE1
+push constant 0
+return
+function Interface.run 0
+call Interface.refresh 0
+pop temp 0
+push static 4
+push static 5
+gt
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+call Stage1.setExit 0
+pop temp 0
+push static 7
+push constant 1
+add
+pop static 7
+push static 5
+push static 7
+add
+pop static 5
+push static 6
+push constant 1
+add
+pop static 6
+push constant 0
+pop static 8
+label IF_FALSE0
+push constant 0
+return
+function Interface.getRightBound 0
+push static 0
+return
+function Interface.getFloor 0
+push static 4
+return
+function Interface.getChapter 0
+push static 6
+return
+function Interface.getLastHp 0
+push static 1
+return
+function Interface.dispose 0
+push argument 0
+pop pointer 0
+push constant 0
+call Screen.setColor 1
+pop temp 0
+push static 0
+push constant 0
+push constant 511
+push constant 255
+call Screen.drawRectangle 4
+pop temp 0
+push pointer 0
+call Memory.deAlloc 1
+pop temp 0
+push constant 0
+return

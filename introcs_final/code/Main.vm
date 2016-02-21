@@ -1,0 +1,45 @@
+function Main.main 0
+push constant 25
+pop static 3
+push constant 0
+pop static 2
+push constant 0
+pop static 0
+label WHILE_EXP0
+push static 0
+not
+not
+if-goto WHILE_END0
+call Game.new 0
+pop static 1
+push static 1
+call Game.run 1
+pop temp 0
+call Game.getDelay 0
+pop static 3
+push static 1
+call Game.dispose 1
+pop temp 0
+goto WHILE_EXP0
+label WHILE_END0
+push constant 0
+return
+function Main.setExit 0
+push constant 0
+not
+pop static 0
+push constant 0
+return
+function Main.updateFloor 0
+push argument 0
+push static 2
+call Math.max 2
+pop static 2
+push constant 0
+return
+function Main.getMaxFloor 0
+push static 2
+return
+function Main.getDelay 0
+push static 3
+return

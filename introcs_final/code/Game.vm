@@ -1,0 +1,182 @@
+function Game.new 0
+push constant 9
+call Memory.alloc 1
+pop pointer 0
+call Main.getDelay 0
+pop static 4
+push constant 0
+pop this 8
+push constant 65
+pop static 0
+push constant 30
+pop static 1
+push constant 100
+pop static 2
+push constant 0
+pop static 3
+push constant 0
+pop static 5
+push pointer 0
+return
+function Game.dispose 0
+push argument 0
+pop pointer 0
+push this 1
+call Interface.dispose 1
+pop temp 0
+push pointer 0
+call Memory.deAlloc 1
+pop temp 0
+push constant 0
+return
+function Game.run 0
+push argument 0
+pop pointer 0
+call Menu.new 0
+pop this 0
+push this 0
+call Menu.run 1
+pop temp 0
+push this 0
+call Menu.dispose 1
+pop temp 0
+call Interface.new 0
+pop this 1
+label WHILE_EXP0
+push static 5
+not
+not
+if-goto WHILE_END0
+call Stage1.new 0
+pop this 2
+push this 2
+call Stage1.run 1
+pop temp 0
+push constant 130
+pop static 0
+push constant 176
+pop static 1
+call Player.getHp 0
+pop static 2
+push this 2
+call Stage1.dispose 1
+pop temp 0
+push static 5
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+call EndScene.new 0
+pop this 5
+push this 5
+call EndScene.run 1
+pop temp 0
+push this 5
+call EndScene.dispose 1
+pop temp 0
+call Interface.getFloor 0
+call Main.updateFloor 1
+pop temp 0
+push this 1
+call Interface.dispose 1
+pop temp 0
+push constant 0
+return
+label IF_FALSE0
+call Stage1toStage2.new 0
+pop this 4
+push this 4
+call Stage1toStage2.run 1
+pop temp 0
+push this 4
+call Stage1toStage2.dispose 1
+pop temp 0
+call Interface.drawConstant 0
+pop temp 0
+call Stage2.new 0
+pop this 3
+push constant 0
+not
+pop static 3
+push this 3
+call Stage2.run 1
+pop temp 0
+call Player2.getX 0
+pop static 0
+call Player2.getY 0
+pop static 1
+call Player2.getHp 0
+pop static 2
+push this 3
+call Stage2.dispose 1
+pop temp 0
+push constant 0
+pop static 3
+push static 5
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+call EndScene.new 0
+pop this 5
+push this 5
+call EndScene.run 1
+pop temp 0
+push this 5
+call EndScene.dispose 1
+pop temp 0
+call Interface.getFloor 0
+call Main.updateFloor 1
+pop temp 0
+push this 1
+call Interface.dispose 1
+pop temp 0
+push constant 0
+return
+label IF_FALSE1
+goto WHILE_EXP0
+label WHILE_END0
+push constant 0
+return
+function Game.setExit 0
+push constant 0
+not
+pop static 5
+push constant 0
+return
+function Game.getDelay 0
+push static 4
+return
+function Game.isStage2 0
+push static 3
+return
+function Game.getPlayerLastX 0
+push static 0
+return
+function Game.getPlayerLastY 0
+push static 1
+return
+function Game.getPlayerLastHp 0
+push static 2
+return
+function Game.setDelay 0
+push argument 0
+push constant 0
+lt
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push constant 0
+return
+label IF_FALSE0
+push argument 0
+push constant 500
+gt
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+push constant 0
+return
+label IF_FALSE1
+push argument 0
+pop static 4
+push constant 0
+return

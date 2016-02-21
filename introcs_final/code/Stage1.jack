@@ -1,0 +1,91 @@
+class Stage1 
+{  
+  // object
+  field Bricks bricks;
+  field Player player;
+  field UpperThorn upperThorn;
+
+  // state
+  static boolean exit;
+
+  constructor Stage1 new()
+  {
+    let bricks = Bricks.new();
+    let upperThorn = UpperThorn.new();
+    let player = Player.new();
+
+    let exit = false;
+
+    return this;
+  }
+
+  method void dispose()
+  {
+    do upperThorn.dispose();
+    do bricks.dispose();
+    do player.dispose();
+    
+
+    do Memory.deAlloc(this);
+    return;
+  }
+
+  method void run()
+  {
+    var char inputKey;
+
+    while(~ exit)
+    {
+      // waits for a key to be pressed.
+      do player.setDir(0);
+      while ( (inputKey = 0) & (~exit) ) 
+      {
+	  do player.setDir(0);
+	  let inputKey = Keyboard.keyPressed();
+	  do process_objects();
+      }
+
+      // left button
+      if(inputKey = 130) 
+      {
+	do player.setDir(1);
+      }
+      else 
+      {
+	// right button
+	if(inputKey = 132) 
+	{
+	  do player.setDir(2);
+	}
+      }  
+
+      // Waits for the key to be released.
+      while ( (~(inputKey = 0)) & (~exit)) 
+      {
+	let inputKey = Keyboard.keyPressed();
+	do process_objects();
+      }
+      
+    }
+
+    // exit = 1, stop running the game
+    return;  
+  }
+
+  method void process_objects()
+  {
+    do player.run();
+    do bricks.run();
+    do Interface.run();
+    
+    do Sys.wait(Game.getDelay());
+    return;
+  }
+
+  function void setExit()
+  {
+    let exit = true;
+    return;
+  }
+
+}

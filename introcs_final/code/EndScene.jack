@@ -1,0 +1,154 @@
+class EndScene{
+	field int DELAY;
+	field int RUN_TIMES;
+
+	constructor EndScene new()
+	{
+	  var String GAMEOVER;
+	  var String TRYAGAIN;
+	  let GAMEOVER = "-- G A M E  O V E R --";
+	  let TRYAGAIN = " TRY AGAIN XD";
+	  let DELAY = 200;
+	  let RUN_TIMES = 3;
+	  do Screen.setColor(true);
+	  do Screen.drawRectangle(0, 0, 511, 255);
+	
+	  do Screen.setColor(false);
+	  do Screen.drawRectangle(80, 60, 330, 104);
+	  do Screen.drawRectangle(270, 154, 400, 184);
+	  //add arc
+	  do Screen.setColor(true);
+	  do Screen.drawRectangle(80,60,90,70);
+	  do Screen.drawRectangle(320,60,330,70);
+	  do Screen.drawRectangle(80,94,90,104);
+	  do Screen.drawRectangle(320,94,330,104);
+	  
+	  do Screen.drawRectangle(270,154,280,164);
+	  do Screen.drawRectangle(390,154,400,164);
+	  do Screen.drawRectangle(270,174,280,184);
+	  do Screen.drawRectangle(390,174,400,184);
+	  
+	  do Screen.setColor(false);
+	  do Screen.drawCircle(90,70,10);
+	  do Screen.drawCircle(320,70,10);
+	  do Screen.drawCircle(90,94,10);
+	  do Screen.drawCircle(320,94,10);
+	  
+	  do Screen.drawCircle(280,164,10);
+	  do Screen.drawCircle(390,164,10);
+	  do Screen.drawCircle(280,174,10);
+	  do Screen.drawCircle(390,174,10);
+	  
+	  //add end
+	  do Output.moveCursor(7, 15);
+	  do Output.printString(GAMEOVER);
+	  do GAMEOVER.dispose();
+	  do Output.moveCursor(15, 35);
+	  do Output.printString(TRYAGAIN);
+	  do TRYAGAIN.dispose();
+	  return this;
+        }
+
+	method void dispose()
+	{
+	  do Screen.clearScreen();
+	  do Memory.deAlloc(this);
+	  return;
+        }
+	      
+      method void run(){
+	      var int i;
+	      let i = 0;
+	      while(i < RUN_TIMES){
+		      do drawPlayer();
+		      do Sys.wait(DELAY);
+		      do erasePlayer(); 
+		      do Sys.wait(DELAY);
+		      do drawSkeleton(); 
+		      do Sys.wait(DELAY);
+		      do eraseSkeleton(); 
+		      do Sys.wait(DELAY);
+		      let i = i + 1;
+	      
+	      }
+		  //add
+		  do Sys.wait(100);
+		  do drawSkeleton();
+		  do closeTelevision();
+		  //
+	      return;
+	      
+      }	
+      method void drawPlayer(){	
+	      do Screen.setColor(false);
+	      do Screen.drawCircle(150, 150, 15);
+	      do Screen.drawLine(150 , 150 + 15, 150, 150 + 15 + 35);
+	      do Screen.drawLine(150 , 150 + 20, 150 - 30, 150 + 20 + 15);
+	      do Screen.drawLine(150 , 150 + 20, 150 + 30, 150 + 20 + 15);
+	      do Screen.drawLine(150 + 30, 150 + 20 + 15, 150 + 30 + 10, 150 + 20 + 15 - 30);
+	      do Screen.drawLine(150 - 30, 150 + 20 + 15, 150 - 30 - 10, 150 + 20 + 15 - 30);
+	      do Screen.drawLine(150, 150 + 15 + 35, 150 - 15, 150 + 15 + 35 + 15);
+	      do Screen.drawLine(150, 150 + 15 + 35, 150 + 15, 150 + 15 + 35 + 15);
+      
+	      return;
+      }
+      method void erasePlayer(){	
+	      do Screen.setColor(true);
+	      do Screen.drawRectangle(150 - 50, 150 - 15, 150 + 50 , 150 + 80);
+	      
+	      return;
+      }	
+      
+	method void drawSkeleton(){	
+		var int i;
+		let i = 8;
+		
+		do Screen.setColor(false);
+		do Screen.drawCircle(150, 150, 15);
+		do Screen.drawRectangle(150 - 5, 150 + 15, 150 + 5, 150 + 20);
+	
+		do Screen.setColor(true);
+		do Screen.drawCircle(150 - 5, 150, 4);
+		do Screen.drawCircle(150 + 5, 150, 4);
+		do Screen.drawLine(150, 150 + 7,150 - 2, 150 + 7 + 2);
+		do Screen.drawLine(150, 150 + 7,150 + 2, 150 + 7 + 2);
+		do Screen.drawLine(150 - 5 + 1, 150 + 15 + 1, 150 - 5 + 9, 150 + 15 + 1);
+		while(i > 0){
+			do Screen.drawLine(150 - 5 + i, 150 + 15, 150 - 5 + i, 150 + 15 + 3);
+			let i = i - 2;
+		}
+		do Screen.setColor(false);
+		do Screen.drawLine(150 , 150 + 20, 150, 150 + 15 + 35);
+		do Screen.drawLine(150 - 15, 150 + 20, 150 - 30, 150 + 20 + 15);
+		do Screen.drawLine(150 + 15, 150 + 20, 150 + 30, 150 + 20 + 15);
+		do Screen.drawLine(150 - 15, 150 + 20 + 10, 150 + 15, 150 + 20 + 10);
+		do Screen.drawLine(150 - 15, 150 + 20 + 10 + 5, 150 + 15, 150 + 20 + 10 + 5);
+		do Screen.drawLine(150 - 15, 150 + 20 + 10 + 10, 150 + 15, 150 + 20 + 10 + 10);
+		do Screen.drawLine(150, 150 + 15 + 35, 150 - 15, 150 + 15 + 35 + 15);
+		do Screen.drawLine(150, 150 + 15 + 35, 150 + 15, 150 + 15 + 35 + 15);
+	
+		return;
+	}
+	method void eraseSkeleton(){	
+		do Screen.setColor(true);
+		do Screen.drawRectangle(150 - 50, 150 - 15, 150 + 50 , 150 + 80);
+		
+		return;
+	}	
+	//added
+	method void closeTelevision(){
+		var int i,j;
+		let i = 0;
+		let j = 0;
+		do Screen.setColor(true);
+		while(~(j > 255)  ){
+			do Screen.drawLine(0,0+j,511,0+j);
+			do Screen.drawLine(0,255-j,511,255-j);
+			do Sys.wait(5);
+			let j = j + 1;
+		}
+	
+		
+		return;
+	}
+}

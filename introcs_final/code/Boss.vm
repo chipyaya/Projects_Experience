@@ -1,0 +1,431 @@
+function Boss.new 0
+push constant 10
+call Memory.alloc 1
+pop pointer 0
+push constant 30
+pop static 3
+call Player2.getX 0
+pop this 8
+push constant 9
+pop this 1
+push static 3
+push this 1
+add
+pop this 4
+call Interface.getRightBound 0
+push static 3
+sub
+push this 1
+sub
+pop this 5
+push this 4
+push this 5
+add
+push constant 2
+call Math.divide 2
+pop this 9
+push this 8
+push this 9
+gt
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push this 4
+push this 9
+call Random.rand 2
+pop static 0
+label IF_FALSE0
+push this 8
+push this 9
+lt
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+push this 9
+push this 5
+call Random.rand 2
+pop static 0
+label IF_FALSE1
+push this 8
+push this 9
+eq
+if-goto IF_TRUE2
+goto IF_FALSE2
+label IF_TRUE2
+push this 4
+push this 5
+call Random.rand 2
+pop static 0
+label IF_FALSE2
+call Interface.getChapter 0
+push constant 5
+lt
+if-goto IF_TRUE3
+goto IF_FALSE3
+label IF_TRUE3
+push constant 100
+push constant 50
+call Interface.getChapter 0
+push constant 2
+sub
+call Math.multiply 2
+add
+pop static 1
+goto IF_END3
+label IF_FALSE3
+push constant 200
+pop static 1
+label IF_END3
+push static 1
+pop static 2
+push constant 50
+pop static 4
+push constant 13
+pop this 6
+push constant 17
+pop this 7
+push this 6
+push this 7
+add
+push constant 2
+call Math.divide 2
+pop static 6
+push constant 10
+pop this 0
+push constant 0
+not
+pop this 2
+push constant 0
+pop this 3
+push constant 0
+not
+pop static 5
+push pointer 0
+call Boss.drawBoss 1
+pop temp 0
+push pointer 0
+return
+function Boss.dispose 0
+push argument 0
+pop pointer 0
+push pointer 0
+call Boss.eraseBoss 1
+pop temp 0
+push pointer 0
+call Memory.deAlloc 1
+pop temp 0
+push constant 0
+return
+function Boss.BossAppearance 0
+push argument 0
+pop pointer 0
+push static 0
+push constant 30
+sub
+push constant 0
+push static 0
+push constant 20
+sub
+push constant 30
+call Screen.drawRectangle 4
+pop temp 0
+push static 0
+push constant 20
+sub
+push constant 10
+push static 0
+push constant 5
+sub
+push constant 20
+call Screen.drawRectangle 4
+pop temp 0
+push static 0
+push constant 5
+sub
+push constant 0
+push static 0
+push constant 2
+sub
+push constant 40
+call Screen.drawRectangle 4
+pop temp 0
+push static 0
+push constant 45
+push constant 3
+call Screen.drawCircle 3
+pop temp 0
+push static 0
+push constant 2
+add
+push constant 0
+push static 0
+push constant 5
+add
+push constant 40
+call Screen.drawRectangle 4
+pop temp 0
+push static 0
+push constant 5
+add
+push constant 10
+push static 0
+push constant 20
+add
+push constant 20
+call Screen.drawRectangle 4
+pop temp 0
+push static 0
+push constant 20
+add
+push constant 0
+push static 0
+push constant 30
+add
+push constant 30
+call Screen.drawRectangle 4
+pop temp 0
+push static 0
+push this 7
+sub
+push constant 20
+push static 0
+push this 6
+sub
+push constant 50
+call Screen.drawRectangle 4
+pop temp 0
+push static 0
+push this 6
+add
+push constant 20
+push static 0
+push this 7
+add
+push constant 50
+call Screen.drawRectangle 4
+pop temp 0
+push constant 0
+call Screen.setColor 1
+pop temp 0
+push static 0
+push constant 45
+push constant 1
+call Screen.drawCircle 3
+pop temp 0
+push constant 0
+return
+function Boss.drawBoss 0
+push argument 0
+pop pointer 0
+push constant 0
+not
+call Screen.setColor 1
+pop temp 0
+push pointer 0
+call Boss.BossAppearance 1
+pop temp 0
+push constant 0
+return
+function Boss.eraseBoss 0
+push argument 0
+pop pointer 0
+push constant 0
+call Screen.setColor 1
+pop temp 0
+push pointer 0
+call Boss.BossAppearance 1
+pop temp 0
+push constant 0
+return
+function Boss.run 3
+push argument 0
+pop pointer 0
+push static 5
+not
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push constant 0
+return
+label IF_FALSE0
+push static 2
+push constant 0
+eq
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+call Ground.setStage2End 0
+pop temp 0
+push pointer 0
+call Boss.eraseBoss 1
+pop temp 0
+push constant 0
+pop static 5
+push constant 0
+return
+label IF_FALSE1
+call Player2.getX 0
+pop this 8
+push this 3
+push this 0
+eq
+if-goto IF_TRUE2
+goto IF_FALSE2
+label IF_TRUE2
+push constant 0
+pop this 3
+goto IF_END2
+label IF_FALSE2
+push this 3
+push constant 0
+eq
+if-goto IF_TRUE3
+goto IF_FALSE3
+label IF_TRUE3
+call BossAmmo.attack 0
+pop temp 0
+label IF_FALSE3
+push this 3
+push constant 2
+eq
+if-goto IF_TRUE4
+goto IF_FALSE4
+label IF_TRUE4
+call BossAmmo.attack 0
+pop temp 0
+label IF_FALSE4
+push this 3
+push constant 4
+eq
+if-goto IF_TRUE5
+goto IF_FALSE5
+label IF_TRUE5
+call BossAmmo.attack 0
+pop temp 0
+label IF_FALSE5
+push this 3
+push constant 1
+add
+pop this 3
+label IF_END2
+push this 2
+not
+if-goto IF_TRUE6
+goto IF_FALSE6
+label IF_TRUE6
+push constant 0
+not
+pop this 2
+push constant 0
+return
+label IF_FALSE6
+push constant 0
+pop this 2
+push static 0
+push this 8
+lt
+if-goto IF_TRUE7
+goto IF_FALSE7
+label IF_TRUE7
+push pointer 0
+call Boss.moveRight 1
+pop temp 0
+label IF_FALSE7
+push static 0
+push this 8
+gt
+if-goto IF_TRUE8
+goto IF_FALSE8
+label IF_TRUE8
+push pointer 0
+call Boss.moveLeft 1
+pop temp 0
+label IF_FALSE8
+push constant 0
+return
+function Boss.moveLeft 0
+push argument 0
+pop pointer 0
+push static 0
+push this 4
+gt
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push pointer 0
+call Boss.eraseBoss 1
+pop temp 0
+push static 0
+push this 1
+sub
+pop static 0
+push pointer 0
+call Boss.drawBoss 1
+pop temp 0
+label IF_FALSE0
+push constant 0
+return
+function Boss.moveRight 0
+push argument 0
+pop pointer 0
+push static 0
+push this 5
+lt
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push pointer 0
+call Boss.eraseBoss 1
+pop temp 0
+push static 0
+push this 1
+add
+pop static 0
+push pointer 0
+call Boss.drawBoss 1
+pop temp 0
+label IF_FALSE0
+push constant 0
+return
+function Boss.hpReduce 0
+push static 2
+push constant 10
+sub
+push constant 0
+gt
+not
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push constant 0
+pop static 2
+push constant 0
+return
+label IF_FALSE0
+push static 2
+push constant 10
+sub
+pop static 2
+push constant 0
+return
+function Boss.getHP_UP 0
+push static 1
+return
+function Boss.getHp 0
+push static 2
+return
+function Boss.getX 0
+push static 0
+return
+function Boss.getY 0
+push static 4
+return
+function Boss.getSize 0
+push static 3
+return
+function Boss.getPipeCenter 0
+push static 6
+return
+function Boss.isAlive 0
+push static 5
+return

@@ -1,0 +1,191 @@
+class Player2{
+	static int x, y;
+	static int size;
+	field int dir;
+	static int PIXEL;
+	static int hp;
+	static int attack;
+	field int downDistance;
+	field int stopDrop;
+	static int moveUp;
+		
+	constructor Player2 new(){
+		let x = Game.getPlayerLastX();
+		let y = Game.getPlayerLastY();
+		let size = 18;
+		let hp = Game.getPlayerLastHp();
+		let dir = 0; 	//freeze
+		let PIXEL = 8;
+		let attack = 0;
+		let downDistance = 1;
+		let stopDrop = 0;
+		let moveUp = 0;
+		do draw();
+		return this;
+	}
+	
+	method void run(){
+		if (stopDrop = 0) {
+			do drop();
+		}
+		do move(dir);
+		if(attack = 1){
+			do PlayerAmmo.attack();
+		}
+		
+		if(~(hp > 0)){
+		        do Sys.wait(1000);
+			do Stage2.setExit();
+			do Game.setExit();
+		}
+		if(moveUp = 1){
+			do setOnGround();
+		}	
+		return;
+	}
+	
+	/** Deallocates the object's memory. */
+    method void dispose() {
+		do erase();
+        do Memory.deAlloc(this);
+        return;
+    }
+
+    /** Draws the player on the screen. */
+   method void draw() {
+        do Screen.setColor(true);
+		do Screen.drawCircle(x + 9, y + 6, 6);
+        do Screen.drawLine(x + 9, y + 12, x + 9, y + 15);	//body
+        
+		do Screen.drawLine(x + 9, y + 15, x + 3, y + 18);	//left foot
+        do Screen.drawLine(x + 9, y + 15, x + 15, y + 18);	//right foot
+		
+		do Screen.drawLine(x + 1, y + 9, x + 1, y + 14);	//left hand
+        do Screen.drawLine(x + 1, y + 15, x + 9, y + 14);
+     
+	 	do Screen.drawLine(x + 3, y + 9, x + 3, y + 12);	//right hand
+     	do Screen.drawLine(x + 3, y + 12, x + 9, y + 12);
+     
+		do Screen.drawRectangle(x + 1, y , x + 3, y + 6);	//gun
+		do Screen.drawRectangle(x, y + 6, x + 3, y + 9);
+		
+		
+	return;
+    }
+	
+
+    /** Erases the player from the screen. */
+    method void erase() {
+        do Screen.setColor(false);
+		do Screen.drawCircle(x + 9, y + 6, 6);
+        do Screen.drawLine(x + 9, y + 12, x + 9, y + 15);	//body
+        
+		do Screen.drawLine(x + 9, y + 15, x + 3, y + 18);	//left foot
+        do Screen.drawLine(x + 9, y + 15, x + 15, y + 18);	//right foot
+		
+		do Screen.drawLine(x + 1, y + 9, x + 1, y + 14);	//left hand
+        do Screen.drawLine(x + 1, y + 15, x + 9, y + 14);
+     
+	 	do Screen.drawLine(x + 3, y + 9, x + 3, y + 12);	//right hand
+     	do Screen.drawLine(x + 3, y + 12, x + 9, y + 12);
+     
+		do Screen.drawRectangle(x + 1, y , x + 3, y + 6);	//gun
+		do Screen.drawRectangle(x, y + 6, x + 3, y + 9);
+	
+		return;
+    }
+	
+	/**Check whether the player is on a Bricks. */
+
+	
+	method void move(int dir){
+		if(dir = 1){ //left
+			do moveLeft();
+		}
+		if(dir = 2){	//right
+			do moveRight();
+		}
+		return;
+	}
+	
+	method void setOnGround(){
+		do erase();
+		let y = Ground.getTop() - size - Ground.getSpeed() - 1;
+		do draw();
+		return;
+	}
+	
+	method void drop(){
+		do erase();
+		if ((y + size + downDistance)  < Ground.getTop()) {
+			let y = y + downDistance;
+			do draw();
+			let downDistance = downDistance + 2;
+		}
+		else{
+			let y = Ground.getTop() - size - 1;
+			do draw();
+			let stopDrop = 1;
+		}
+		return;
+	
+	}
+	/** Moves left by 2 pixels. */
+    method void moveLeft() {
+        if (~(x - PIXEL < 0)) {
+            do erase();
+            let x = x - PIXEL;
+            do draw();
+        }
+        return;
+    }
+
+    /** Moves right by 2 pixels. */
+    method void moveRight() {
+        if (~((x + size + PIXEL) > Interface.getRightBound())) {
+            do erase();
+            let x = x + PIXEL;
+            do draw();
+        }
+        return;
+    }
+	method void setDir(int adir){
+		let dir = adir;
+		return;
+	}
+	function int getX(){
+		return x;
+	}
+	function int getY(){
+		return y;
+	}
+	
+	function int getSize(){
+		return size;
+	}
+
+	function int getHp(){
+		return hp;
+	}
+	
+	
+	function void hpReduce(){
+		let hp = hp - 10;
+		return;
+	}
+	
+	method void setAttack(){
+		let attack = 1;
+		return;
+	}
+	method void resetAttack(){
+		let attack = 0;
+		return;
+	}
+	function void setMoveUp(){
+		let moveUp = 1;
+		return;
+	}
+	
+	
+}

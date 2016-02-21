@@ -1,0 +1,154 @@
+class BossAmmo 
+{
+	static Array Ammo_x;
+	static Array Ammo_y;
+	static int Size;
+	static int AMMO_NUMBER;
+	field int speed;
+	field int UP_LEAST;
+	field int DOWN_LEAST;
+
+	constructor BossAmmo new() {
+		let AMMO_NUMBER = 50;
+		let Ammo_x = Array.new(AMMO_NUMBER);
+		let Ammo_y = Array.new(AMMO_NUMBER);
+		do Init();
+		let Size = 2;
+		let speed = 10;
+		let DOWN_LEAST = Ground.getTop() - Size;
+		//let DOWN_LEAST = 255;
+		return this;
+	}
+
+	method void dispose() {
+		do eraser();
+		do Memory.deAlloc(this);
+		return;
+	}
+
+	method void eraser(){
+		var int i;
+		let i = 0;
+		while (i < AMMO_NUMBER){
+			if (Ammo_y[i] > -1){
+				do Screen.setColor(false);
+				do Screen.drawRectangle(Ammo_x[i], Ammo_y[i], Ammo_x[i] + Size, Ammo_y[i] + Size);
+			}
+
+			let i = i + 1;
+		}
+
+		return;
+	}
+
+	// let all Ammo_y = -1
+	method void Init() {
+		var int i;
+		let i = 0;
+		while (i < AMMO_NUMBER){
+			let Ammo_y[i] = -1;
+			let i = i + 1;
+		}
+		return;
+	}
+
+	// Boss attack
+	function void attack() {
+		var int Bx;
+		var int By;
+		var int PIPE_center;
+		var int i;
+	        let Bx = Boss.getX();
+		let By = Boss.getY();
+		let PIPE_center = Boss.getPipeCenter();
+		let i = 0;
+		
+		while (i < AMMO_NUMBER) {
+			if (Ammo_y[i] = -1) {
+				let Ammo_x[i]  = Bx - PIPE_center - (Size / 2);
+				let Ammo_y[i]  = By + 1;
+
+				let i = i + 1;
+				let Ammo_x[i]  = Bx - (Size / 2);
+				let Ammo_y[i]  = By + 1;
+
+				let i = i + 1;
+				let Ammo_x[i]  = Bx + PIPE_center - (Size / 2);
+				let Ammo_y[i]  = By + 1;
+				return;
+			}
+			let i = i + 1;
+		}
+		return;
+	}
+
+	method void run() {
+		var int i;
+		let i = 0;
+		while (i < AMMO_NUMBER) {
+			do drawBossAmmo(i);
+			let i = i + 1;
+		}
+		return;
+	}
+
+	method void drawBossAmmo(int i){
+		if (Ammo_y[i] = -1){
+			return;
+		}
+		do Screen.setColor(false);
+		do Screen.drawRectangle(Ammo_x[i], Ammo_y[i], Ammo_x[i] + Size + 1, Ammo_y[i] + Size + 1);
+
+		let Ammo_y[i] = Ammo_y[i] + speed;
+
+		if (OverScreen(i)){
+			let Ammo_y[i] = -1;
+			return;
+		}
+
+		if (Hit(i)){
+			let Ammo_y[i] = -1;
+			return;
+		}
+		if ((Ammo_x[i] < 0) & (Ammo_x[i] > 255)){
+			return;
+		}
+		if ((Ammo_y[i] < 0) & (Ammo_y[i] + Size) > DOWN_LEAST){
+			return;
+		}
+
+		do Screen.setColor(true);
+		do Screen.drawRectangle(Ammo_x[i], Ammo_y[i], Ammo_x[i] + Size, Ammo_y[i] + Size);
+		return;
+
+	}
+
+	method boolean OverScreen(int i){
+
+		if ((Ammo_y[i] + Size) > DOWN_LEAST){
+			return true;
+		}
+		return false;
+	}
+
+	method boolean Hit(int i){
+		var int Px;
+		var int Py;
+		var int Psize;
+	        let Px = Player2.getX();
+		let Py = Player2.getY();
+		let Psize = Player2.getSize();
+
+		if (Ammo_y[i] = -1){
+			return true;
+		}
+
+		if (~((Ammo_x[i] + Size) < Px) & ~(Ammo_x[i] > (Px + Psize))){
+			if (~((Ammo_y[i] + Size) < Py )){
+			do Player2.hpReduce();
+			return true;
+			}
+		}
+		return false;
+	}
+}

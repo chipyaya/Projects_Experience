@@ -1,0 +1,249 @@
+class Interface{
+    field int waste;
+	static int RIGHTBOUND;
+	static int Player_Hp;
+	static int Boss_Hp;
+	static int time_0;
+	static int floor;
+	static int GOAL;
+	static int Chapter;
+	static int inc_factor;  
+	static boolean Boss_Hp_respresent;
+	
+	//construct function
+	constructor Interface new(){
+		let RIGHTBOUND = 410;
+		let GOAL = 5;
+		let floor = 1;
+		let Chapter = 1;
+		let inc_factor = 5;
+		let Boss_Hp_respresent = false;
+		do Interface.drawConstant();
+		
+		//do Interface.draw(); 
+		do Interface.refresh();
+	        return this;
+	}
+	
+	
+	/**  function for my-own class  */
+	function void timeInc(){
+		let time_0 = time_0 +  1; 
+		return;
+	}
+	
+	function void time2floor(){
+		if(time_0 = 50){
+			let floor = floor + 1;
+			let time_0 = 0;
+		}	
+		return; 
+	}
+
+	
+	function void drawfence(){
+		var int y;
+		
+		var int i;
+		var int j;
+		var int a;
+		var int b;
+		
+		let y = 1;
+		do Screen.setColor(true);
+		do Screen.drawRectangle(RIGHTBOUND,0,RIGHTBOUND+5,255);
+		do Screen.setColor(false);
+		while(y < (255-1) ){
+		
+			do Screen.drawCircle(RIGHTBOUND+2,y,1);
+			let y = y + 2;
+		}
+		//test
+		
+		let i = 0;
+		let j = 415;
+		let a = 500;//500
+		let b = 245;//245
+	
+		do Screen.setColor(true);
+		while(~( i > 255) ){
+			do Screen.drawLine(a,b,511,i);
+			let i = i + 3;
+		}
+		while(~( j > 511) ){
+			do Screen.drawLine(a,b,j,255);
+			let j = j + 2;
+		}
+		
+		do Screen.setColor(false);
+		let i = 0;
+		let j = 415;
+		let a = 450;//450
+		let b = 200;//200
+		
+		while(~( i > 255) ){
+			do Screen.drawLine(a,b,511,i);
+			let i = i + 3;
+		}
+		while(~( j > 511) ){
+			do Screen.drawLine(a,b,j,255);
+			let j = j + 2;
+		}
+		
+	
+		return;
+	}
+	
+	function void  HPdisplay(int data,int startCursorA,int startCursorB,boolean mode){
+		var int down_limit;
+		var int top_limit;
+		var int data_temp;
+		var int startCursorA_temp;
+		let startCursorA_temp = startCursorA;
+		let down_limit = startCursorA;
+		let top_limit = 2;
+		
+		while( ( ~(startCursorA_temp < 2) ) ){
+				do Output.moveCursor(startCursorA_temp ,startCursorB);
+				do Output.moveCursor(startCursorA_temp ,startCursorB+1);
+				do Output.printChar(32);
+				let startCursorA_temp  = startCursorA_temp  - 1;
+			}
+		
+		let startCursorA_temp = startCursorA;
+		let data_temp = data;
+		while( (data_temp > 0) & (~(startCursorA_temp  < 2)) ){
+				do Output.moveCursor(startCursorA_temp ,startCursorB);
+				do Output.printChar(20);
+				let data_temp = data_temp - 10 ;
+				let startCursorA_temp  = startCursorA_temp  - 1;
+				if(~mode){
+				do Sys.wait(50);//represent the flow;
+				}
+				
+			}
+		let startCursorA_temp = startCursorA;	
+		while( (data_temp > 0)  & (~(startCursorA_temp  < 2)) ){
+				do Output.moveCursor(startCursorA_temp ,startCursorB+1);
+				do Output.printChar(20);
+				let data_temp = data_temp - 10 ;
+				let startCursorA_temp  = startCursorA_temp  - 1;
+				if(~mode){
+				do Sys.wait(50);//represent the flow;
+				}
+			}
+		return;
+	}
+	
+	
+	
+	
+	/**  function for other class  */
+	
+	
+	function void drawConstant(){
+		do Interface.drawfence();
+		do Output.moveCursor(19,53);
+		do Output.printChar(76);//L
+		
+		do Output.moveCursor(21,53);
+		do Output.printChar(70);//F
+		do Output.moveCursor(21,54);
+		do Output.printChar(76);//L
+		do Output.moveCursor(21,55);
+		do Output.printChar(79);//O
+		do Output.moveCursor(21,56);
+		do Output.printChar(79);//O
+		do Output.moveCursor(21,57);
+		do Output.printChar(82);//R
+		do Output.moveCursor(21,58);
+		do Output.printChar(58);//:
+		do Output.moveCursor(21,59);
+		do Output.printChar(66);
+		
+		return;
+	}
+		
+	
+	function void refresh(){
+	
+		do Output.moveCursor(21,60);
+		do Output.printInt(floor);
+		
+		if(Game.isStage2()){
+			do Output.moveCursor(19,57);
+			do Output.printChar(66);//B
+			
+			let Player_Hp = Player2.getHp();
+			let Boss_Hp = Boss.getHp();
+			do Interface.HPdisplay(Boss_Hp,18,57,Boss_Hp_respresent);
+			let Boss_Hp_respresent = true;
+		}
+		else{
+			do Output.moveCursor(19,57);
+			do Output.printChar(32);//whitespce
+			
+			let Player_Hp = Player.getHp();	
+		}
+		
+		
+		do Interface.HPdisplay(Player_Hp,18,53,true);
+		
+	
+		if(~Game.isStage2()){	
+			do Interface.timeInc();
+			do Interface.time2floor();
+		}
+		
+
+		return;
+	}
+	
+	
+	
+	function void run(){
+	
+		
+		do Interface.refresh();
+		
+		if(floor > GOAL){
+			do Stage1.setExit();
+			let inc_factor = inc_factor + 1;
+			let GOAL = GOAL + inc_factor ; 
+			let  Chapter = Chapter + 1;
+			let Boss_Hp_respresent = 0;
+			
+		}
+		
+		
+		return;
+	}
+	
+	
+	
+			// data passing 
+	function int getRightBound(){
+		return RIGHTBOUND;
+	}
+	
+	function int getFloor(){
+		return floor;
+	}
+	function int getChapter(){
+		return Chapter;
+	}
+	
+	function int getLastHp(){
+		return Player_Hp;
+	}
+		
+	//dispose function
+	method void dispose()
+	{
+		do Screen.setColor(false);
+		do Screen.drawRectangle(RIGHTBOUND,0,511,255);
+		do Memory.deAlloc(this);
+		return;
+	}	
+	
+}

@@ -1,0 +1,252 @@
+class Brick {   
+  field int x;
+  field int y;
+  field int W;
+  field int H;
+  field int speed;
+  field int type;
+
+  field boolean isPlayerOn;
+  field boolean processed;
+  /*
+   * type: 0 - empty
+   *       1 - normal
+   *       2 - slow
+   *       3 - thorn
+   *       4 - reverse
+   */
+  
+  constructor Brick new(int newX, int newType) 
+  {
+    let processed = false;
+    let isPlayerOn = false;
+    let speed = Bricks.getSpeed();
+    let W = 100;
+    let H = 8;
+    if( ~( (newX + W) < Interface.getRightBound() ) )
+    {
+      let newX = Interface.getRightBound() - W - 1;
+    }
+    
+    if( newX < 0 )
+    {
+      let newX = 0;
+    }
+    
+    let x = newX;
+    let y = 255 - H;
+    let type = newType;
+    do draw();
+    return this;
+  }
+
+  constructor Brick newEmpty() 
+  {
+    let type = 0;
+    return this;
+  }
+
+  method void draw()
+  {
+    var int i;
+    var int thornHeight;
+    var int halfThornWidth;
+
+    if(type = 0)
+    {
+      do Output.printString("cannot draw type0 !");
+      do Sys.error(997);
+      return;
+    }
+
+    if(type = 1)
+    {
+      do Screen.setColor(true);
+      do Screen.drawRectangle(x,y,x+W,y+H);
+    }
+
+    if(type = 2)
+    {
+      do Screen.setColor(true);
+      do Screen.drawRectangle(x,y,x+H,y+H);
+      do Screen.drawRectangle(x+W-H,y,x+W,y+H);
+      let i = x;
+      while( (i + H) < (x + W) )
+      {
+	do Screen.drawLine(i,y,i+H,y+H);
+	let i = i + 3;
+      }
+    }
+
+    if(type = 3)
+    {
+      let thornHeight = 5;
+      let halfThornWidth = 2;
+      do Screen.setColor(true);
+      do Screen.drawRectangle(x,y + thornHeight ,x+W,y+H);
+
+      let i = halfThornWidth;
+      while( (x + i) < (x + W) )
+      {
+	do Screen.drawLine(x + i                 ,  y,
+			   x + i - halfThornWidth,y+thornHeight);
+	do Screen.drawLine(x + i                 ,  y,
+			   x + i + halfThornWidth,y+thornHeight);
+
+	let i = i + (2 * halfThornWidth);
+      }
+      
+    }
+
+    if(type = 4)
+    {
+      do Screen.setColor(true);
+      do Screen.drawRectangle(x,y,x+W,y+H);
+      do Screen.setColor(false);
+      do Screen.drawLine(x + 20, y + (H / 2), x + 80, y + (H / 2) ); 
+      do Screen.drawLine(x + 20, y + (H / 2), x + 30, y + 2); 
+      do Screen.drawLine(x + 20, y + (H / 2), x + 30, y + H - 2); 
+      do Screen.drawLine(x + 80, y + (H / 2), x + 70, y + 2); 
+      do Screen.drawLine(x + 80, y + (H / 2), x + 70, y + H - 2); 
+      return;
+    }
+
+    return;
+  }
+
+  method void clear()
+  {
+      do Screen.setColor(false);
+      do Screen.drawRectangle(x,y,x+W,y+H);
+      return;
+  }
+
+  method void dispose() 
+  {
+      if( ~(type = 0) )
+      {
+	do clear();
+      }
+      do Memory.deAlloc(this);
+      return;
+  }
+
+  method void move() 
+  {
+    if( type = 0 )
+    {
+      return;
+    }
+
+    do clear();
+
+    if(~(y - speed > UpperThorn.getUpperBound() ))
+    {
+      let type = 0;
+      return;
+    }
+    
+    // player get hurt by upperThorn
+    if(  isPlayerOn
+	 & (~((y - speed - Player.getSize()) > (UpperThorn.getUpperBound() + 2))) )
+    {
+      let type = 0;
+      do Player.hpReduceByBrick();
+      return;
+    }
+
+
+    let y = y - speed;
+    do draw();
+    return;
+  }
+
+  method int getType()
+  {
+    return type;
+  }
+
+  method int getY()
+  {
+    return y;
+  }
+
+  method boolean isPlayerStandingOn(int px, int py, int size, int distance)
+  {
+    // not exist brisk
+    if(type = 0)
+    {
+      let isPlayerOn = false;
+      return isPlayerOn;
+    }
+
+    // out of x coordinate
+    if( ( (px + size) < x) | (px > (x + W) ) )
+    {
+      let isPlayerOn = false;
+      return isPlayerOn;
+    }
+    
+
+    if( (~((py + size - 1) > y))
+        & ( ~((py + size + distance - 1) < y)) )
+    {
+      if( ~ processed )
+      {
+	let processed = true;
+        let isPlayerOn = true;
+	do processThisType();
+      }
+      return isPlayerOn;
+    }
+   
+    
+    let isPlayerOn = false;
+    return isPlayerOn;
+  }
+
+  method void processThisType()
+  {
+    do Player.resetPixel();
+    do Player.resetReverse();
+
+    /*
+   * type: 0 - empty
+   *       1 - normal
+   *       2 - slow
+   *       3 - thorn
+   *       4 - reverse
+   */
+
+    if(type = 1)
+    {
+      do Player.hpIncrease();
+    }
+
+    if(type = 2)
+    {
+      do Player.hpIncrease();
+      do Player.setSmallPixel();
+    }
+
+    if(type = 3)
+    {
+      // player get hurt by brick with thorn
+      do Player.hpReduceByBrick();
+    }
+
+    
+    if(type = 4)
+    {
+      do Player.hpIncrease();
+      do Player.setReverse();
+    }
+
+
+    return;
+
+
+  }
+
+
+}

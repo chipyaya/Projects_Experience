@@ -1,0 +1,141 @@
+function UpperThorn.new 0
+push constant 4
+call Memory.alloc 1
+pop pointer 0
+call Interface.getRightBound 0
+push constant 1
+sub
+pop this 0
+push constant 15
+pop this 1
+push constant 8
+pop this 2
+push constant 14
+pop this 3
+push this 1
+push this 3
+add
+pop static 0
+push pointer 0
+call UpperThorn.draw 1
+pop temp 0
+push pointer 0
+return
+function UpperThorn.dispose 0
+push argument 0
+pop pointer 0
+push pointer 0
+call UpperThorn.clear 1
+pop temp 0
+push pointer 0
+call Memory.deAlloc 1
+pop temp 0
+push constant 0
+return
+function UpperThorn.clear 0
+push argument 0
+pop pointer 0
+push constant 0
+call Screen.setColor 1
+pop temp 0
+push constant 0
+push constant 0
+push this 0
+push this 1
+push this 3
+add
+call Screen.drawRectangle 4
+pop temp 0
+push constant 0
+return
+function UpperThorn.draw 2
+push argument 0
+pop pointer 0
+push this 2
+push constant 2
+call Math.divide 2
+pop local 0
+push constant 0
+not
+call Screen.setColor 1
+pop temp 0
+push constant 0
+push constant 0
+push this 0
+push this 1
+call Screen.drawRectangle 4
+pop temp 0
+push constant 0
+pop local 1
+label WHILE_EXP0
+push local 1
+push this 2
+add
+push this 0
+gt
+not
+not
+if-goto WHILE_END0
+push local 1
+push this 1
+push local 1
+push local 0
+add
+push this 1
+push this 3
+add
+call Screen.drawLine 4
+pop temp 0
+push local 1
+push constant 1
+add
+push this 1
+push local 1
+push local 0
+add
+push constant 1
+add
+push this 1
+push this 3
+add
+call Screen.drawLine 4
+pop temp 0
+push local 1
+push local 0
+add
+pop local 1
+push local 1
+push this 1
+push this 3
+add
+push local 1
+push local 0
+add
+push this 1
+call Screen.drawLine 4
+pop temp 0
+push local 1
+push constant 1
+add
+push this 1
+push this 3
+add
+push local 1
+push local 0
+add
+push constant 1
+add
+push this 1
+call Screen.drawLine 4
+pop temp 0
+push local 1
+push local 0
+add
+pop local 1
+goto WHILE_EXP0
+label WHILE_END0
+push constant 0
+return
+function UpperThorn.getUpperBound 0
+push static 0
+return

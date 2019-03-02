@@ -1,4 +1,5 @@
-## Projects done in NTU
+# Projects done in NTU
+## Class projects
 ### GOGOMAN
 ### LED Monitor System
 ### Bank Account Management System
@@ -12,4 +13,6 @@
 ### Image Inpainting
 ### KDD 2018
 ### Book Rating Prediction
-
+## Projects for Activities
+### Pygame
+### Door

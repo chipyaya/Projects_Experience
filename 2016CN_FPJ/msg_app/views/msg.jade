@@ -1,0 +1,34 @@
+extends layout
+
+block content
+	h1= title
+	p Welcome, #{currentUser}
+	p= debugMsg
+	form#findReceiver(method="post", action="/msg")
+		input#inputReceiver(type="text", list="userNameL", placeholder="enter receiver name", name="receiver")
+		datalist(id = "userNameL")
+			each user in userDoc
+				option(value = user.username)
+		input#btnReceiver(type="submit")
+
+	div.msgdiv
+		h3 unreadMsg
+		each msg in unreadDoc
+			p #{msg.sender}: #{msg.msgContent}
+
+	div.msgdiv
+		h3 importantMsg
+		each msg in importantDoc
+			p #{msg.sender}: #{msg.msgContent}
+
+	div.msgdiv
+		h3 Search msg content
+		form(method="post", action="/msg/msgSearch")
+			input(type="text", placeholder="enter msg content", name="searchReq")
+			input(type="submit")
+
+
+	br
+	br
+	br
+	button#btnLogout(type="submit", onclick="window.location.href = '/'") logout

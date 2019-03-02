@@ -1,0 +1,21 @@
+extends layout
+
+block content
+	style.
+		.myCol{
+			display:inline-block;
+			height:550px;
+			width:550px;
+			border:1px solid black;
+			margin: 1em;
+		}
+
+	form#formAddUser(name="adduser",method="post",action="/signup")
+		input#inputUserName(type="text", placeholder="username", name="username") 
+		br 
+		br
+		input#inputUserPasswd(type="text", placeholder="userpasswd", name="userpasswd") 
+		br
+		br
+		button#btnSignup(type="submit") signup
+		p= signupStatus

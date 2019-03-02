@@ -1,0 +1,22 @@
+{
+  "name": "door tv",
+  "description": "",
+  "main": "app.js",
+  "authors": [
+    "twxia <passion804222@gmail.com>"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/NTU-ArtFest22/Door",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "^3.3.6",
+    "moment": "^2.13.0",
+    "jquery-animateNumber": "^0.0.13"
+  }
+}

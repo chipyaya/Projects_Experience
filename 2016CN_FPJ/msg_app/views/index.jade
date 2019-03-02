@@ -1,0 +1,45 @@
+extends layout
+block content
+	h1= title
+	div.LoginSignupCol
+		h2 Login
+		form(method="post",action="/login")
+			input(type="text", placeholder="username", name="username") 
+			br 
+			br
+			input(type="password", placeholder="userpasswd", name="userpasswd") 
+			br
+			br
+			button(type="submit") Login
+		p= loginStatus
+
+	div.LoginSignupCol
+		h2 Signup
+		form(method="post",action="/signup")
+			input(type="text", placeholder="username", name="username") 
+			br 
+			br
+			input(type="password", placeholder="userpasswd", name="userpasswd") 
+			br
+			br
+			button(type="submit") Signup
+		p= signupStatus
+
+	div.LoginSignupCol
+		h2 Change Passwd
+		form(method="post",action="/changepasswd")
+			input(type="text", placeholder="username", name="username") 
+			br 
+			br
+			input(type="password", placeholder="oldpasswd", name="oldpasswd") 
+			br
+			br
+			input(type="password", placeholder="newpasswd", name="newpasswd") 
+			br
+			br
+			button(type="submit") Change Passwd
+		p= changepasswdStatus
+
+	div
+		button#btnFiles(type="submit", onclick="window.location.href = '/showDB'") showDB
+		button#btnFiles(type="submit", onclick="window.location.href = '/cleanDB'") cleanDB

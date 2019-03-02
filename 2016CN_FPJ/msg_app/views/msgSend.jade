@@ -1,0 +1,154 @@
+extends layout
+
+block content
+   meta(http-equiv='refresh', content='10')
+   style.
+      .myCol{
+         display:inline-block;
+         height:500px;
+         width:550px;
+         border:1px solid black;
+      }
+      .myContent{
+         height:400px;
+         width:100%;
+         border:1px solid black;
+         overflow:auto
+      }
+      .send{
+         width:90%;
+         padding:20px;;
+         text-align:right;
+      }
+      .send:hover{
+         cursor:pointer;
+      }
+      .receive{
+         width:100%;
+         padding:20px;
+         text-align:left;
+      }
+      .receive:hover{
+         cursor:pointer;
+      }
+      .sendM{
+         width:90%;
+         padding:20px;
+         text-align:right;
+      }
+      .receiveM{
+         width:100%;
+         padding:20px;
+         text-align:left;
+      }
+      #customizeBtn{
+         border:1px solid black;
+         border-radius:5px;
+         background:transparent;
+         display:inline-block;
+      }
+      #customizeBtn:hover {
+         cursor:pointer;
+         background:linear-gradient(rgba(0,0,0,0.1), rgba(0,0,0,0.1));
+      }
+
+   script.
+      $(document).ready(function(){
+         $(".send").each(function(){
+            var str = $(this).text();
+            var sendFileName = str.split("_");
+            $(this).text(sendFileName[2]);
+         });
+         $(".receive").each(function(){
+            var str = $(this).text();
+            var sendFileName = str.split("_");
+            $(this).text(sendFileName[2]);
+         });
+         $(".send").on("click", function(){
+            window.location.href = '/msg/msgSend/#{sender}_#{receiver}_' + $(this).text();      
+         });
+         $(".receive").on("click", function(){
+            window.location.href = '/msg/msgSend/#{receiver}_#{sender}_' + $(this).text();      
+         });
+         $(".sendM").each(function(){
+            var str = $(this).text();
+            var sendMsgContent = str.split("_");
+            $(this).text(sendMsgContent[2]);
+         });
+         $(".receiveM").each(function(){
+            var str = $(this).text();
+            var sendMsgContent = str.split("_");
+            $(this).text(sendMsgContent[2]);
+         });
+         $("#returnBtn").click(function(){
+            window.location.href = '/msg?currentUser=#{sender}';      
+         });
+
+         //customize button
+         if("#{customizeMsg}" != ""){
+            $("#customizeBtn").text("#{customizeMsg}");
+         }
+         $("#customizeBtn").mousedown(function(event){
+            $(this).contextmenu(function(){
+               return false;
+            });
+            switch(event.which){
+               case 1:
+                  var customizeValue = $(this).text();
+                  $.post("/msg/msgSend/customizeSend", {sender:"#{sender}", receiver:"#{receiver}", customizeMsg:customizeValue}, function(res){
+                     window.location.href = "/msg/msgSend?currentUser=#{sender}&receiver=#{receiver}";
+                  });
+                  break;
+               case 3:
+                  var customizeSetValue = prompt("Please enter your customize button content.", "ex. ^^");
+                  if(customizeSetValue != null){
+                     $.post("/msg/msgSend/customizeSet", {currentUser:"#{sender}", customizeMsg: customizeSetValue}, function(res){
+                     });
+                     $(this).text(customizeSetValue); 
+                  }
+                  break;
+               default:
+                  alert("nothing happened!");
+            }
+         });
+         
+      });
+
+   p hello,#{sender}, you are sending msg to #{receiver} 
+
+   div#msgField.myCol
+      div#msgShow.myContent
+         each msg in msgs
+            if msg.sender == sender
+               div.sendM #{msg.msgContent}
+            else
+               div.receiveM #{msg.msgContent}
+      form(action="/msg/msgSend/msgcontent", method="post", style="display:inline-block;")
+         input(type="hidden", name="currentUser", value="#{sender}")
+         input(type="hidden", name="receiver", value="#{receiver}")
+         input(type="text", placeholder="enter your message", name="sendMsg")
+         label
+            input(type="checkbox", name="important")
+            | important 
+         input(type="submit", value="Send Msg") 
+      button#customizeBtn set your own msg
+
+   div#fileField.myCol
+      div#fileShow.myContent
+         each file in files
+            if file.sender == sender
+               div.send #{file.filename}
+            else
+               div.receive #{file.filename}
+      p= debugFile
+      form(ref='uploadForm', id='uploadForm', action="/msg/msgSend/file", method="post", encType='multipart/form-data')
+         input(type="hidden", name="currentUser", value="#{sender}")
+         input(type="hidden", name="receiver", value="#{receiver}")
+         input(type="file", name="sendFile")
+         input(type="submit", value="Send File")
+
+   br
+   br
+   br
+   button#returnBtn(type="submit") return to message page
+

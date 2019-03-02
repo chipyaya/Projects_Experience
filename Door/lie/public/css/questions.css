@@ -1,0 +1,176 @@
+.qbg1 h1{
+	opacity:0;
+}
+.qbg1{
+	background-position: center;
+	background-size: cover;
+	height:100vh;
+	background-image: url(/img/web_bg/web_div1.jpg);
+}
+.qbg2{
+	background-position: center;
+	background-size: cover;
+	height:100vh;
+	background-image: url(/img/web_bg/web_div1.jpg);
+}
+.qbg3{
+	background-position: center;
+	background-size: cover;
+	height:100vh;
+	background-image: url(/img/web_bg/web_div1.jpg);
+}
+.qbg4{
+	background-position: center;
+	background-size: cover;
+	height:100vh;
+	background-image: url(/img/web_bg/web_div1.jpg);
+}
+.qbg5{
+	background-position: center;
+	background-size: cover;
+	height:100vh;
+	background-image: url(/img/web_bg/web_div1.jpg);
+}
+.qbg17{
+	background-position: center;
+	background-size: cover;
+	height:100vh;
+	background-image: url(/img/web_bg/web_div1.jpg);
+}
+.qbg18{
+	background-position: center;
+	background-size: cover;
+	height:100vh;
+	background-image: url(/img/web_bg/web_div1.jpg);
+}
+.qbg19{
+	background-position: center;
+	background-size: cover;
+	height:100vh;
+	background-image: url(/img/web_bg/web_div1.jpg);
+}
+.qbg20{
+	background-position: center;
+	background-size: cover;
+	height:100vh;
+	background-image: url(/img/web_bg/web_div1.jpg);
+}
+.qbg21{
+	background-position: center;
+	background-size: cover;
+	height:100vh;
+	background-image: url(/img/web_bg/web_div1.jpg);
+}
+.qbg22{
+	background-position: center;
+	background-size: cover;
+	height:100vh;
+	background-image: url(/img/web_bg/web_div1.jpg);
+}
+.qbg23{
+	background-position: center;
+	background-size: cover;
+	height:100vh;
+	background-image: url(/img/web_bg/web_div1.jpg);
+}
+
+.qbg6{
+	background-size: cover;
+	height:100vh;
+	background-image: url(/img/web_bg/web_div2.jpg);
+}
+.qbg7{
+	background-size: cover;
+	height:100vh;
+	background-image: url(/img/web_bg/web_div3.jpg);
+}
+.qbg8{
+	background-size: cover;
+	height:100vh;
+	background-image: url(/img/web_bg/web_div4.jpg);
+}
+.qbg9{
+	background-position: center;
+	background-size: cover;
+	height:100vh;
+	background-image: url(/img/web_bg/web_div5.jpg);
+}
+.qbg10{
+	background-position: center;
+	background-size: cover;
+	height:100vh;
+	background-image: url(/img/web_bg/web_div5.jpg);
+}
+.qbg11{
+	background-position: center;
+	background-size: cover;
+	height:100vh;
+	background-image: url(/img/web_bg/web_div5.jpg);
+}
+.qbg12{
+	background-position: center;
+	background-size: cover;
+	height:100vh;
+	background-image: url(/img/web_bg/web_div5.jpg);
+}
+.qbg13{
+	background-position: center;
+	background-size: cover;
+	height:100vh;
+	background-image: url(/img/web_bg/web_div5.jpg);
+}
+.qbg14{
+	background-position: center;
+	background-size: cover;
+	height:100vh;
+	background-image: url(/img/web_bg/web_div5.jpg);
+}
+.qbg15{
+	background-position: center;
+	background-size: cover;
+	height:100vh;
+	background-image: url(/img/web_bg/web_div5.jpg);
+}
+.qbg16{
+	background-position: center;
+	background-size: cover;
+	height:100vh;
+	background-image: url(/img/web_bg/web_div6.jpg);
+}
+.qbg1 .ques, .qbg2 .ques, .qbg3 .ques, .qbg4 .ques, .qbg5 .ques, .qbg9 .ques, .qbg10 .ques, .qbg11 .ques, .qbg12 .ques, .qbg13 .ques, .qbg14 .ques, .qbg15 .ques, .qbg16 .ques, .qbg17 .ques, .qbg18 .ques, .qbg19 .ques, .qbg20 .ques, .qbg21 .ques, .qbg22 .ques, .qbg23 .ques{
+	padding:5% 10% 0 10%;
+}
+
+.qbg5 .ques{
+	width:80%;
+}
+
+.qbg5 a.button{
+	display: inline-block;
+}
+
+.qbg6 .ques{
+	padding: 5% 10% 0 40%;
+}
+.qbg7 .ques{
+	padding: 0 10% 0 35%;
+}
+.qbg8 .ques{
+	width:70%;
+	padding: 2% 10% 0 10%;
+}
+
+.qbg1 h1, .qbg2 h1, .qbg3 h1, .qbg4 h1, .qbg5 h1, .qbg7 h1, .qbg16 h1, .qbg17 h1, .qbg18 h1, .qbg19 h1, .qbg20 h1, .qbg21 h1, .qbg22 h1, .qbg23 h1{
+	color:white;
+}
+.qbg6 h1, .qbg8 h1, .qbg9 h1, .qbg10 h1, .qbg11 h1, .qbg12 h1, .qbg13 h1, .qbg14 h1, .qbg15 h1{
+	color:black;
+}
+.qbg1 .button, .qbg2 .button, .qbg3 .button, .qbg4 .button, .qbg5 .button, .qbg7 .button, .qbg16 .button, .qbg17 .button, .qbg18 .button, .qbg19 .button, .qbg20 .button, .qbg21 .button, .qbg22 .button, .qbg23 .button{
+	border: 2px solid white;
+	color:white;
+}
+.qbg6 .button, .qbg8 .button, .qbg9 .button, .qbg10 .button, .qbg11 .button, .qbg12 .button, .qbg13 .button, .qbg14 .button, .qbg15 .button{
+	border: 2px solid black;
+	color:black;
+}

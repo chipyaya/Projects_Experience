@@ -1,0 +1,64 @@
+extends layout
+
+block content
+	link(rel='stylesheet', href='/css/questions.css')
+	script.
+		$(window).on('touchmove', function(e){
+		    e.preventDefault();
+		});
+		var recordans = function(qnum,next,ans){
+			console.log(qnum,next,ans);
+			if(qnum != 23) {
+				$("html, body").animate({"scrollTop": $(".qbg"+next).offset().top});
+				tlt();
+			}
+			$.post('/Q', {qnum:qnum, ans:ans},function(data){
+				$('.qbg'+qnum+' a.button').attr("onclick","");
+				if(qnum == 23) {
+					window.location='/gotoshoot';
+				}
+			});
+		}
+	mixin page(Q)
+		div(class="qbg#{Q.qnum}")
+			.ques
+				h1.tlt_q.question Q#{Q.qnum} #{Q.title}
+				a.button(onclick="recordans('#{Q.qnum}','#{Q.Anext}',0)") #{Q.ansA}
+				a.button(onclick="recordans('#{Q.qnum}','#{Q.Bnext}',1)") #{Q.ansB}
+				a.button(onclick="recordans('#{Q.qnum}','#{Q.Cnext}',2)") #{Q.ansC}
+				if Q.ansD != null
+					a.button(onclick="recordans('#{Q.qnum}','#{Q.Dnext}',3)")#D #{Q.ansD}
+				if Q.ansE != null
+					a.button(onclick="recordans('#{Q.qnum}','#{Q.Enext}',4)")#E #{Q.ansE}
+				if Q.ansF != null
+					a.button(onclick="recordans('#{Q.qnum}','#{Q.Fnext}',5)")#F #{Q.ansF}	
+	+page({qnum:1, title:"哈囉哈，你是大學生嗎？", ansA: "是", ansB: "否", ansC: "我認為此題與溫魯無關", Anext:2, Bnext:2, Cnext:2})
+	+page({qnum:2, title:"你覺得你的才藝表現OK嗎?", ansA: "OK", ansB: "不OK", ansC: "我認為此題與溫魯無關", Anext:3, Bnext:3, Cnext:3})
+	+page({qnum:3, title:"你是第一次走進魯蛇門/溫拿門嗎?", ansA: "是", ansB: "否",ansC: "我認為此題與溫魯無關", Anext:4, Bnext:4, Cnext:4})
+	+page({qnum:4, title:"你目前單身嗎?", ansA: "是", ansB: "一言難盡", ansC: "否", ansD:"我認為此題與溫魯無關", Anext:5, Bnext:5, Cnext:6, Dnext:5})
+	+page({qnum:5, title:"你有喜歡的人嗎?", ansA: "有", ansB: "尋找中", ansC: "我目前不打算談感情", ansD: "曖昧中", ansE: "關係緊張", ansF: "我認為此題與溫魯無關", Anext:7, Bnext:8, Cnext:9, Dnext:10, Enext:11, Fnext:13})
+	+page({qnum:6, title:"你與另一半目前相處的如何呢?", ansA: "很好", ansB: "有問題",ansC: "我認為此題與溫魯無關", Anext:12, Bnext:12, Cnext:12})
+	+page({qnum:7, title:"當你「全心投入」時，你有信心半年內穩交嗎?", ansA: "有", ansB: "沒有",ansC: "我認為此題與溫魯無關", Anext:13, Bnext:13, Cnext:13})
+	+page({qnum:8, title:"當你「全心投入」時，你有信心半年內找到對象並穩交嗎?", ansA: "有", ansB: "沒有",ansC: "我認為此題與溫魯無關", Anext:13, Bnext:13, Cnext:13})
+	+page({qnum:9, title:"你喜歡自己現在的單身生活嗎?", ansA: "喜歡", ansB: "不喜歡",ansC: "我認為此題與溫魯無關", Anext:13, Bnext:13, Cnext:13})
+	+page({qnum:10, title:"你覺得你們未來能成為一對情侶嗎?", ansA: "能", ansB: "不能",ansC: "我認為此題與溫魯無關", Anext:13, Bnext:13, Cnext:13})
+	+page({qnum:11, title:"你覺得造成關係緊張有一半以上是因為對方?", ansA: "是", ansB: "不是",ansC: "我認為此題與溫魯無關", Anext:13, Bnext:13, Cnext:13})
+	+page({qnum:12, title:"你有信心半年後依然穩交嗎?", ansA: "有", ansB: "沒有",ansC: "我認為此題與溫魯無關", Anext:13, Bnext:13, Cnext:13})
+	+page({qnum:13, title:"很冒昧請問你有住宿嗎？", ansA: "有", ansB: "沒有", ansC: "我認為此題與溫魯無關", Anext:14, Bnext:14, Cnext:14})
+	+page({qnum:14, title:"若你還不確定能否得到回報就為心上人付出，你認為自己是個工具人嗎?", ansA: "是", ansB: "不是", ansC: "我認為此題與溫魯無關", Anext:15, Bnext:15, Cnext:15})
+	+page({qnum:15, title:"說你到底不是土城人？", ansA: "是", ansB: "否",ansC: "我認為此題與溫魯無關", Anext:16, Bnext:16, Cnext:16})
+	+page({qnum:16, title:"你認為自己煮的飯好(能)吃嗎?", ansA: "是", ansB: "否", ansC: "我認為此題與溫魯無關", Anext:17, Bnext:17, Cnext:17})
+	+page({qnum:17, title:"不好意思請問你有穿襪子嗎？", ansA: "有", ansB: "沒有", ansC: "我認為此題與溫魯無關", Anext:18, Bnext:18, Cnext:18})
+	+page({qnum:18, title:"你想要延畢嗎?", ansA: "想", ansB: "不想", ansC: "我認為此題與溫魯無關", Anext:19, Bnext:19, Cnext:19})
+	+page({qnum:19, title:"你有參展過台大藝術季其他作品了嗎?", ansA: "有", ansB: "沒有", ansC: "我認為此題與溫魯無關", Anext:20, Bnext:20, Cnext:20})
+	+page({qnum:20, title:"你覺得現在的生活充實嗎?", ansA: "是", ansB: "否", ansC: "我認為此題與溫魯無關", Anext:21, Bnext:21, Cnext:21})
+	+page({qnum:21, title:"你覺得自己外表好看嗎?", ansA: "好看", ansB: "不好看", ansC: "我認為此題與溫魯無關", Anext:22, Bnext:22, Cnext:22})
+	+page({qnum:22, title:"請問你有信心回答這個知識性問題嗎? ∫(1+e^2x)dx=?", ansA: "有", ansB: "沒有", ansC: "我認為此題與溫魯無關", Anext:23, Bnext:23, Cnext:23})
+	+page({qnum:23, title:"你覺得自己現在是魯蛇還溫拿呢?", ansA: "魯蛇", ansB: "溫拿", ansC: "我認為此題與溫魯無關"})
+
+	script(src='/js/jquery.lettering.js')
+	script(src='/js/jquery.fittext.js')
+	script(src='/js/jquery.textillate.js')
+	script(src='/js/tlt.js')
+	script(src='/js/sharephoto.js')
+

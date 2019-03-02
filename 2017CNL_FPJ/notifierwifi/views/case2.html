@@ -1,0 +1,21 @@
+<html>
+  <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script>
+    var url = "";
+    setInterval(function() {
+      $.ajax({
+        url: '/scan2',
+        success: function(data) {
+          $("#i").text(data);
+          if(data != url) {
+            url = data;
+            var newwin = window.open("http://"+url, '_blank');
+          }
+        }
+      });
+    }, 14000);
+    </script>
+  </head>
+  <p id="i"></p>
+</html>

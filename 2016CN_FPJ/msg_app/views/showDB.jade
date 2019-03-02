@@ -1,0 +1,36 @@
+extends layout
+
+block content
+   table
+      thead
+         tr
+            th username 
+            th userpasswd
+            th customizeMsg
+      tbody
+         each user in userlist
+            tr
+               td=user.username
+               td=user.userpasswd
+               td=user.customizeMsg
+
+   br
+   br
+   br
+   table
+      thead
+         tr
+            th sender 
+            th receiver 
+            th important 
+            th read 
+            th msgContent
+      tbody
+         each msg in allMsg
+            tr
+               td=msg.sender 
+               td=msg.receiver 
+               td=msg.important 
+               td=msg.read 
+               td=msg.msgContent
+

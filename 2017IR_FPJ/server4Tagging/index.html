@@ -1,0 +1,57 @@
+<html>
+  <head>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+  <script>
+    $(document).ready(function(){
+      $(":button").click(function(event) {
+        $.ajax({
+          type:"GET",
+          url: "/res",
+          data: { "{{index}}":event.target.id },
+          success: function(data) {
+            c = $.cookie("times");
+            if(c == null) {
+              $.cookie("times", "1", { path: "/", expires: 20});
+              location.reload();
+            }
+            else {
+              c = parseInt(c);
+              if(c >= 4) {
+                window.location.replace("/success");
+              }
+              else {
+                $.cookie("times", c+1, { path: "/", expires: 20});
+                location.reload();
+              }
+            }
+          }
+        });
+      });
+    });
+  </script>
+  </head>
+  
+  <body>
+    <div class="row">
+      <nav class="navbar navbar-default navbar-fixed-top" style="width: 100%">
+      <div style="width:100%; text-align: center; margin: 2%;">
+        <button type="button" class="btn btn-secondary" id="0">0: not a post of food</button>
+        <button type="button" class="btn btn-primary" id="1">1: not sponsored post</button>
+        <button type="button" class="btn btn-success" id="2">2</button>
+        <button type="button" class="btn btn-info" id="3">3</button>
+        <button type="button" class="btn btn-warning" id="4">4</button>
+        <button type="button" class="btn btn-danger" id="5">5: is sponsored post</button><br>
+      </div>
+      <nav>
+      <div class="col-12">
+        <iframe frameborder="0" src="{{url}}" style="width:100%; height:90%"></iframe>
+      </div>
+    </div>
+  </body>
+
+</html>

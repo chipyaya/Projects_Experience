@@ -1,0 +1,286 @@
+
+<html>
+	<head>
+		<title>CSIE Guide</title>
+		<style type="text/css">
+			*{
+				font-family: serif;
+			}
+			#inputPanel{
+				background-color: #eeffff;
+				border-style: solid;
+				border-color: #ddffff;
+				border-radius: 5px;
+				padding: 10px;
+				width: 25%;
+			}
+			#ctrlPanel{
+				margin-top: 25px;
+			}
+			#inputPanelButtons{
+				padding-left: 10%;
+				display: inline;
+			}
+			.panelButton{
+				width: 25%;
+				border-radius: 4px;
+			}
+		</style>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+		<script type="text/javascript">
+var savePoints = {};
+
+//class SavePoint
+var SavePoint = function(network){
+	var self = this;
+	self.wifiAmps = {};
+	self.website = "";
+  if(network != null) {
+    for(var i=0;i<network.length;i++){
+      self.wifiAmps[network[i].ssid] = network[i].signal_level;
+    }
+  }
+	self.bind = function(website){
+		self.website = website;
+	}
+}
+//inner product
+SavePoint.compare = function(sp1, sp2){
+	var dot = 0;
+	var allkeys = new Set();
+	for(var key in sp1.wifiAmps){
+		allkeys.add(key);
+	}
+	for(var key in sp2.wifiAmps){
+		allkeys.add(key);
+	}
+	for(let key of allkeys){
+		var amp1 = 0, amp2 = 0;
+		if(sp1.wifiAmps[key]!=null){
+			amp1 = Math.pow(10, sp1.wifiAmps[key]/10);
+		}
+		if(sp2.wifiAmps[key]!=null){
+			amp2 = Math.pow(10, sp2.wifiAmps[key]/10);
+		}
+		dot += (amp1-amp2)*(amp1-amp2);
+	}
+	return dot;
+}
+
+function getWebsiteBySavePoint(network){
+	var savePoint = new SavePoint(network);
+	console.log("savePoints = ",savePoints);
+	
+	console.log("savePoints.length = ",savePoints.length);
+	if(savePoints.length == undefined){
+		console.log("savePoints.length = ",savePoints.length);
+		return null;
+	}
+	//find the one that matches
+	var min = 1000000;
+	var minSavePoint = "";
+	for(var name in savePoints){
+		console.log("name = ",name);
+		var dot = SavePoint.compare(savePoints[name], savePoint);
+		if(dot < min){
+			min = dot;
+			minSavePoint = name;
+		}
+	}
+	console.log("minSavePoint = ",minSavePoint);
+	return savePoints[minSavePoint].website;
+}
+
+function saveCookies(){
+	var data = JSON.stringify(savePoints);
+	var expires = new Date();
+	expires.setTime(expires.getTime() + 10*365*24*60*60*1000);
+	document.cookie = "savePointData=" + data + "; expires="+expires.toUTCString()+";";
+}
+
+function loadCookies(){
+	var sp = {};
+	var cookies = document.cookie.split(" ").join("").split(";");
+	for(var key in cookies){
+		var cookie = cookies[key].split("=");
+		if(cookie[0]=="savePointData"){
+			try{
+				sp = JSON.parse(unescape(cookie[1]));
+			}
+			catch(e){
+				alert(e);
+			}
+		}
+	}
+	savePoints = sp;
+}
+			
+			// GUI
+			var ctrlPanel;
+			var inputPanel;
+			var nameInput;
+			var websiteInput;
+			var saveButton;
+			var cmpButton;
+			var stopButton;
+			var isSearching;
+      var url = "";
+			
+			//refresh control panel according to current savepoint data
+			function refreshCtrlPanel(){
+				//clear control panel
+				/*
+				while (ctrlPanel.firstChild) {
+					ctrlPanel.removeChild(ctrlPanel.firstChild);	
+				}
+				*/
+				var table = document.getElementById("savePointsTable");
+				while (table.firstChild) {
+					table.removeChild(table.firstChild);	
+				}
+				for(var name in savePoints){
+					var tr = document.createElement("tr");
+					var th1 = document.createElement("th");
+					var th2 =  document.createElement("th");
+					var deleteButton = document.createElement("button");
+					th1.innerHTML = name;
+					deleteButton.innerHTML = "Delete";
+					deleteButton.onclick = (function(tr, name){
+						return function(){
+							table.removeChild(tr);
+							delete savePoints[name];
+							saveCookies();
+						}
+					})(tr, name);
+					th2.appendChild(deleteButton);
+					tr.appendChild(th1)
+					tr.appendChild(th2)
+					table.appendChild(tr);	
+				}
+			}
+			
+			function onLoad(){
+				//init
+				isSearching = false;
+				ctrlPanel = document.getElementById("ctrlPanel");
+				inputPanel = document.getElementById("inputPanel");
+				saveButton = document.getElementById("saveButton");
+				cmpButton = document.getElementById("cmpButton");
+				stopButton = document.getElementById("stopButton");
+        nameInput = document.getElementById("savePointName");
+        websiteInput = document.getElementById("website");
+				stopButton.style.visibility ="hidden";
+				loadCookies();
+				refreshCtrlPanel();
+			}
+		
+			function saveOnClick(){
+				var name = nameInput.value;
+				var website= websiteInput.value;
+				$.ajax({
+					url: '/scan3',
+					success: function(network){
+            network = JSON.parse(network)
+            var savePoint = new SavePoint(network);
+            if(name != "" && website != "" && savePoint != null){
+              savePoint.bind(website);
+              savePoints[name] = savePoint;
+            }
+            saveCookies();	
+            refreshCtrlPanel();
+					}
+				});	
+			}
+			
+			function searchWifi(){
+				if(isSearching){
+          console.log("scan");
+					$.ajax({
+						url: '/scan3',
+						success: function(network){
+                            network = JSON.parse(network)
+							var savePoint = new SavePoint(network);
+							//TODO: wait for wifi input format
+							if(savePoint!=null){
+								//find the one that matches
+								var min = 1000000;
+								var minSavePoint = null;
+								for(var name in savePoints){
+									var dot = SavePoint.compare(savePoints[name], savePoint);
+                  console.log(name, savePoints[name].wifiAmps, savePoint.wifiAmps, dot)
+                  //console.log(name, dot)
+									if(dot < min){
+										min = dot;
+										minSavePoint = savePoints[name];
+									}
+								}
+								if(minSavePoint!=null){
+									if(url!=minSavePoint.website){
+										url = minSavePoint.website;
+										window.open("https://"+url, "_blank");
+									}
+									
+								}
+								else{
+								}
+							}
+							else{
+								//alert("Some input fields are empty.")
+							}
+						}
+					});
+				
+					setTimeout(searchWifi, 14000)
+				}
+				else{
+					cmpButton.disabled = false;
+				}
+			}
+			
+			
+			function cmpOnClick(){
+                //url="";
+				isSearching = true;
+				cmpButton.disabled = true;
+				stopButton.style.visibility ="visible";
+				searchWifi();				
+			}
+			
+			function stopOnClick(){
+				isSearching = false;
+				stopButton.style.visibility ="hidden";
+			}
+			
+			
+		</script>
+	</head>
+	<body onload="onLoad()">
+		<h1>Welcome to CSIE Guide</h1>
+		<div id=inputPanel>
+			<table id=inputTable>
+				<tr>
+					<th>Savepoint Name: <th>
+					<th><input type=text  id=savePointName></input><th>
+				</tr>
+				<tr>
+					<th>Website: <th>
+					<th><input type=text  id=website></input><th>
+				</tr>
+			</table>
+			<br>
+			<div id=inputPanelButtons>
+				<button id=saveButton class=panelButton onclick="saveOnClick()">Save</button>
+				<button id=cmpButton class=panelButton onclick="cmpOnClick()">Compare</button>
+				<button id=stopButton class=panelButton onclick="stopOnClick()">Stop</button>
+			</div>
+		</div>
+		
+		<hr>
+		<h2>Save points:</h2>
+		<div id=ctrlPanel margin-top=25px>
+			<table id=savePointsTable>
+			<table>
+		</div>
+			
+	</body>
+</html>

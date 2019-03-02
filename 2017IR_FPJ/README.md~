@@ -1,0 +1,12 @@
+# Sponsored Posts Recognizer for Restaurant Reviews
+National Taiwan University 2017 Spring - Web Retrieval and Mining Final Project
+
+## Introduction
+The main objective is to determine whether a review post about food is a sponsored post or not.  
+
+We have tried word2vec, tfidf, image features, polarity to train the model.  
+
+## Reports
+[Presentation PTT](https://docs.google.com/presentation/d/1jmq4sUB_HOwqgRln6iSPQzDea7SKr0EU85ptlHUBhdY/edit#slide=id.p)  
+[Report](https://docs.google.com/document/d/1l_2CHxcULCrWqs0OqlpjJxaCmpTUZfZR3d0OuNEyUnA/edit)  
+[Notes](https://hackmd.io/IYRgnAZgbFDsAMBaALCUKBGAOKisBMBTERYAY2XzDFkPwFZ5Yg==)  

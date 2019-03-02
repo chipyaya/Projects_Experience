@@ -1,0 +1,9 @@
+extends layout
+
+block content
+	h1= title
+	
+	div.msgdiv
+		h3 Search result
+		each msg in searchRes
+			p #{msg.sender} -> #{msg.receiver}: #{msg.content}

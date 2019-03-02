@@ -1,0 +1,36 @@
+extends layout
+
+block content
+	script.
+		function detect(){
+			console.log('detect');
+			$.get('/detectfinish',function(data){
+				console.log('data result:'+data.result);
+				if(data.result == 1)
+					window.location='/loading';
+			});
+		}
+		setInterval(detect, 1000);
+
+	style.
+		.bg{
+			background-size: cover;
+			background-position: center;
+			height:100vh;
+			background-image: url(/img/web_bg/web_div1.jpg);
+		}
+		.bg div{
+			position: absolute;
+			font-size: 50px;
+			top: 20%;
+			left: 0;
+			right: 0;
+			text-align:center;
+		}
+		.bg p{
+			margin: 5%;
+		}
+	.bg
+		div
+			p 問答結束
+			p 請去旁邊拍照區拍照
